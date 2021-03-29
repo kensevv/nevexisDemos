@@ -1,0 +1,148 @@
+package com.kensev.cruds;
+
+import com.kensev.entitites.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+public class VehicleCRUD {
+	private String jdbcURL;
+	private String jdbcUsername;
+	private String jdbcPassword;
+
+	private Connection jdbcConnection;
+
+	public VehicleCRUD(String URL, String Username, String Password) {
+		this.jdbcURL = URL;
+		this.jdbcUsername = Username;
+		this.jdbcPassword = Password;
+
+	}
+
+	public void connect() throws SQLException {
+		if (jdbcConnection == null || jdbcConnection.isClosed()) {
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+			} catch (ClassNotFoundException exception) {
+				throw new SQLException(exception);
+			}
+			this.jdbcConnection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+		}
+	}
+
+	public void disconnect() throws SQLException {
+		if (this.jdbcConnection != null && !this.jdbcConnection.isClosed()) {
+			this.jdbcConnection.close();
+		}
+	}
+
+	public List<Vehicle> listAllVehicles() throws SQLException 
+	{
+		return listAllVehicles("licPlate");
+	}
+	public List<Vehicle> listAllVehicles(String orderBy) throws SQLException {
+		connect();
+
+		List<Vehicle> allVehicles = new ArrayList<Vehicle>();
+
+		Statement statement = jdbcConnection.createStatement();
+		String queryStatement = String.format("SELECT * FROM vehicles ORDER BY %s;", orderBy);
+		ResultSet resultSet = statement.executeQuery(queryStatement);
+
+		while (resultSet.next()) {
+			String licPlate = resultSet.getString("licPlate");
+			String model = resultSet.getString("model");
+			String insurance = resultSet.getString("insurance");
+			boolean isAvailable = resultSet.getBoolean("isAvailable");
+			int milleage = resultSet.getInt("milleage");
+			double price = resultSet.getDouble("price");
+
+			Vehicle newVehicle = new Vehicle(licPlate, model, insurance, isAvailable, milleage, price);
+			allVehicles.add(newVehicle);
+		}
+
+		resultSet.close();
+		statement.close();
+		disconnect();
+		return allVehicles;
+	}
+
+	public boolean addVehicle(Vehicle newVehicle) throws SQLException {
+		connect();
+		Statement statement = jdbcConnection.createStatement();
+
+		String updateStatement = String.format(Locale.US,
+				"INSERT INTO vehicles(licPlate, model, insurance, isAvailable, milleage, price)"
+						+ " VALUES('%s', '%s', '%s', %b, %d, %f)",
+				newVehicle.getLicPlate(), newVehicle.getModel(), newVehicle.getInsurance(), newVehicle.getIsAvailable(),
+				newVehicle.getMilleage(), newVehicle.getPrice());
+
+		boolean successful;
+		try {
+			statement.executeUpdate(updateStatement);
+			successful = true;
+		} catch (Exception e) {
+			successful = false;
+		}
+
+		statement.close();
+		disconnect();
+		return successful;
+	}
+
+	public Vehicle getVehicle(String licPlate) throws SQLException {
+		connect();
+		String queryStatement = String.format("Select * FROM vehicles WHERE licPlate = '%s'", licPlate);
+		Statement statement = jdbcConnection.createStatement();
+		ResultSet resultSet = statement.executeQuery(queryStatement);
+
+		Vehicle foundVehicle = null;
+
+		if (resultSet.next()) {
+			String model = resultSet.getString("model");
+			String insurance = resultSet.getString("insurance");
+			boolean isAvailable = resultSet.getBoolean("isAvailable");
+			int milleage = resultSet.getInt("milleage");
+			double price = resultSet.getDouble("price");
+
+			foundVehicle = new Vehicle(licPlate, model, insurance, isAvailable, milleage, price);
+		}
+
+		statement.close();
+		resultSet.close();
+		disconnect();
+		return foundVehicle;
+	}
+
+	public boolean removeVehicle(String licPlate) throws SQLException {
+		String updateStatement = String.format("DELETE FROM vehicles WHERE licPlate = '%s'", licPlate);
+
+		connect();
+		Statement statement = jdbcConnection.createStatement();
+		boolean deleted = statement.executeUpdate(updateStatement) > 0;
+
+		statement.close();
+		disconnect();
+
+		return deleted;
+	}
+
+	public boolean updateVehicle(Vehicle veh) throws SQLException {
+		connect();
+		Statement statement = jdbcConnection.createStatement();
+		String updateStatement = String.format(
+				"UPDATE vehicles SET " + "model = '%s'," + "insurance = '%s'" + "isAvailable = %s," + "milleage = %s,"
+						+ "price = %s " + "WHERE licPlate = '%s';",
+				veh.getModel(), veh.getInsurance(), veh.getIsAvailable(), veh.getMilleage(), veh.getPrice());
+		boolean updated = statement.executeUpdate(updateStatement) > 0;
+
+		statement.close();
+		disconnect();
+		return updated;
+	}
+}

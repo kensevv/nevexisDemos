@@ -1,0 +1,5 @@
+package com.kensev.accounts;
+
+public class Account {
+
+}

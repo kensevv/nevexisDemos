@@ -1,0 +1,36 @@
+1616593119775	Delete element
+1616593833494	Rename method 'isAvailable'
+1616610591053	Move 'Style.css' to 'css'
+1616610709848	Rename resource 'Style.css'
+1616629813536	Delete element
+1616664850602	Move 'css' to 'webapp'
+1616665535987	Move 'style.css' to 'webapp'
+1616665590681	Move 'style.css' to 'css'
+1616665635072	Move 'style.css' to 'webapp'
+1616665640076	Delete element
+1616666058640	Move 'style.css' to 'css'
+1616666113388	Move 'style.css' to 'webapp'
+1616666117501	Delete element
+1616670177715	Extract local variable 'connection'
+1616670187975	Extract local variable 'connection'
+1616671309274	Extract local variable 'connection'
+1616672637732	Inline local variable 'updateStatement'
+1616687529838	Rename resource 'index.jsp'
+1616689005203	Delete element
+1616690201491	Encapsulate field 'accEmail'
+1616690210077	Encapsulate field 'accPassword'
+1616690308199	Rename field 'accEmail'
+1616690323572	Rename field 'accPassword'
+1616691728412	Move 'loginStyle.css' to 'css'
+1616691732778	Move 'screen2Style.css' to 'css'
+1616691735712	Move 'style.css' to 'css'
+1616691749914	Rename resource 'screen2Style.css'
+1616691955818	Copy compilation unit
+1616752652150	Encapsulate field 'username'
+1616752660976	Encapsulate field 'email'
+1616752666660	Encapsulate field 'password'
+1616754699390	Move 'Georgi.png' to 'webapp'
+1616754723099	Move 'Georgi.png' to 'icons'
+1616754899945	Rename resource 'Georgi.png'
+1616754912251	Rename resource 'Georgi.jpg'
+1616754965751	Delete element

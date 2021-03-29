@@ -1,0 +1,57 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Modify Vehicle</title>
+</head>
+<body>
+<div class="navbar">
+		<a href="index.jsp">Home</a>
+		<div class="dropdown">
+			<button class="dropbtn">
+				Options <i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a href="list">List All Vehicles</a> 
+				<a href="VehicleForm.jsp">Add new Vehicle</a> 
+				<a href="removeForm">Remove Vehicle</a>
+				<a href="">Modify Vehicle</a>
+			</div>
+		</div>
+	</div>
+	<div class="box">
+		<label for="licPlate">Choose a car to modify:</label>
+		<form method="get" action="update">
+			<select name="licPlate" id="cars">
+				<c:forEach var="vehicle" items="${listVehicle}">
+					<option value="${vehicle.licPlate}">
+						<c:out value="${vehicle.licPlate}" />
+					</option>
+				</c:forEach>
+			</select>
+			
+					Model:
+					<input type="text" name="model" placeholder="Model"></input>
+					Insurance:
+					<input class="input" type="text" name="insurance"
+						placeholder="insurance"></input>
+				isAvailable:
+					<input class="input" type="text" name="isAvailable"
+						placeholder="is available"></input>
+				Milleage:
+					<input class="input" type="text" name="milleage"
+						placeholder="Milleage"></input>
+				Price:
+					<input class="input" type="text" name="price"
+						placeholder="price"></input>
+			
+			
+			
+			<button type="submit" class="removeBtn">Modify Vehicle</button>
+		</form>
+	</div>
+</body>
+<style><%@include file="style.css"%></style>
+</html>

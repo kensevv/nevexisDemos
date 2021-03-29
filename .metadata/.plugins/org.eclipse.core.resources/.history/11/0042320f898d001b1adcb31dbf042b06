@@ -1,0 +1,44 @@
+package com.kensev.accounts;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.kensev.cruds.ConnectionManager;
+
+public class Account {
+	private static String email;
+	private static String password;
+
+	public Account(String email, String password) {
+		Account.setEmail(email);
+		Account.setPassword(password);
+	}
+	public static boolean login() throws SQLException {
+	
+		Connection connection = ConnectionManager.getConnection();
+		String queryStatement = String.format("SELECT email, username FROM accounts WHERE email = '%s', username = '%s'", email, password);
+		try(Statement statement = connection.createStatement();
+				ResultSet rs = statement.executeQuery(queryStatement);){
+			if(rs.next()) return true;
+			else return false;
+		}	
+	}
+
+	public static String getEmail() {
+		return email;
+	}
+
+	public static void setEmail(String email) {
+		Account.email = email;
+	}
+
+	public static String getPassword() {
+		return password;
+	}
+
+	public static void setPassword(String password) {
+		Account.password = password;
+	}
+}

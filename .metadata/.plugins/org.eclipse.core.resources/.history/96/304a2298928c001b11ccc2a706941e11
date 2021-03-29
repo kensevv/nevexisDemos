@@ -1,0 +1,5 @@
+package com.kensev.car_rental_entities;
+
+public class Employee extends Person {
+
+}

@@ -1,0 +1,70 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Profile</title>
+</head>
+<body>
+    <div id="root">
+       
+<%@include file="htmlTemplates/navigationBar.html"%>
+        
+        <main>
+            <div id="Profile">
+                <div id="myProfile">
+                    <img class="avatar" src="icons/Georgi.png" alt="Kenan" />
+                    <label>Kenan Yusein</label>
+                </div>
+                <div id="Info">
+                    <p>
+                        <label>Posts</label>
+                        <label id="number">1</label>
+                    </p>
+                    <p>
+                        <label>Reactions</label>
+                        <label id="number">7</label>
+                    </p>
+                    <button id="logout">Log Out</button>
+                </div>
+            </div>
+            <div id="Feed">
+                <div id="newPost">
+                    <img class="avatar" id="newPostAvatar" src="icons/Georgi.png" alt="Kenan" />
+                    <input placeholder="Say something" id="SaySomething" />
+                </div>
+               
+                <div class="post" id="post1">
+                    <img class="avatar" id="feedAvatar" src="icons/Georgi.png" alt="Kenan" />
+                    <div class="content">
+                        <p><b>Ivan Ivanov</b> <bdi>&#8226; 5 seconds ago</bdi>  </p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, quisquam natus? Molestiae recusandae provident, sit accusamus, aperiam pariatur error ipsa perspiciatis iste quidem itaque quis quasi similique hic exercitationem fuga?</p>
+                        <img class="thumbs" src="icons/thumbs_up.ico" alt="thumbs_up">
+                        <label class="thumbsLabel" for="thumbs">5</label>
+                        <img class="thumbs" src="icons/thumbs_down.ico" alt="">
+                        <label class="thumbsLabel" for="thumbs">3</label>
+                    </div>
+                    <img class="X" src="icons/dialog_close.ico" alt="X">
+                </div>
+                
+                <div class="post" id="post2">
+                    <img class="avatar" id="feedAvatar" src="icons/Georgi.png" alt="Kenan" />
+                    <div class="content">
+                        <p><b>Kenan</b> <bdi>&#8226; last month</bdi>  </p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+                        <img class="thumbs" src="icons/thumbs_up.ico" alt="thumbs_up">
+                        <label class="thumbsLabel" for="thumbs">9</label>
+                        <img class="thumbs" src="icons/thumbs_down.ico" alt="">
+                        <label class="thumbsLabel" for="thumbs">6</label>
+                    </div>
+                    <img class="X" src="icons/dialog_close.ico" alt="X">
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+<style><%@include file="css/style.css"%></style>
+</html>
