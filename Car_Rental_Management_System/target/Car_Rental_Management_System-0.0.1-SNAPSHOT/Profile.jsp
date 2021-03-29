@@ -11,12 +11,10 @@
     <div id="root">
        
 <%@include file="htmlTemplates/navigationBar.html"%>
-        <img src="icons/Georgi.png"/>
         <main>
             <div id="Profile">
                 <div id="myProfile">
                     <img class="avatar" src="icons/Georgi.jpg" alt="${sessionScope.account.username}" />
-                     <img class="avatar" src='<c:url value="/icons/Georgi.jpg"></c:url>' alt="${sessionScope.account.username}" />    
                     <label>${sessionScope.account.username}</label>
                     <label>${sessionScope.account.email}</label>
                 </div>

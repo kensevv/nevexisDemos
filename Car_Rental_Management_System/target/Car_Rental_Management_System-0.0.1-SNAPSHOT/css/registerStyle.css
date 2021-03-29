@@ -55,6 +55,7 @@ div.redirect {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    padding-top: 20px;
 }
 
 #submit {

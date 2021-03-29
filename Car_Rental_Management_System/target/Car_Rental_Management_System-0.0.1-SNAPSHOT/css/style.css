@@ -67,11 +67,16 @@ main{
 }
 
 .navbar {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 	overflow: hidden;
 	background: rgb(42,11,11);
 background: linear-gradient(90deg, rgba(42,11,11,1) 0%, rgba(36,36,36,1) 83%);
 }
-
+.navbar-profile-options {
+	 padding-right: 80px;
+}
 .navbar a {
 	float: left;
 	font-size: 16px;
@@ -192,9 +197,8 @@ background: linear-gradient(90deg, rgba(65,65,65,1) 0%, rgba(168,168,168,1) 50%,
 }
 
 #userInformation {
-	float: right;
 }
 
 #navUser {
-	float: right; 
+	
 }
