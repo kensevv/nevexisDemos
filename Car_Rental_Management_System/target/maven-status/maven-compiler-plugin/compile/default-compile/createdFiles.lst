@@ -1,11 +1,8 @@
 com\kensev\servlets\ControllerServlet.class
-com\kensev\entitites\Branch.class
 com\kensev\accounts\Account.class
-com\kensev\entitites\Person.class
 com\kensev\cruds\ConnectionManager.class
-com\kensev\entitites\Employee.class
 com\kensev\cruds\VehicleCRUD.class
 com\kensev\servlets\LoginServlet.class
 com\kensev\entitites\Vehicle.class
-com\kensev\entitites\Client.class
+com\kensev\filters\LoginFilter.class
 com\kensev\servlets\RegisterServlet.class
