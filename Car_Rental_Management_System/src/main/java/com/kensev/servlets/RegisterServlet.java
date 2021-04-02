@@ -21,12 +21,18 @@ public class RegisterServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
+		boolean registered;
 		try {
-			acc.register(username, email, password);
+			registered = acc.register(username, email, password);
 		} catch (SQLException e) {
 			throw new Error("register error ......");
 		}
-		request.getSession().setAttribute("account", acc);
-		response.sendRedirect("home.jsp");
+		if(registered) {
+			request.getSession().setAttribute("account", acc);
+			response.sendRedirect("home.jsp");
+		}
+		else {
+			response.sendRedirect("register.jsp");
+		}
 	}
 }
