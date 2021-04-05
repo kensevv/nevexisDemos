@@ -12,51 +12,54 @@ import java.util.List;
 import java.util.Stack;
 
 public class ConnectionPool {
-	private static int CURRENT_CONNECTIONS = 5;
+	//private static int CURRENT_CONNECTIONS = 5;
 	private final static int MINIMUM_CONNECTIONS = 5;
-	private static LocalTime prevTime = LocalTime.now();
-	private static int averageUsedConnectionsPerSecond = 1;
-	
+	// private static LocalTime prevTime = LocalTime.now();
+	// private static int totalQueriesToDB = 0;
+
 	private static String jdbcURL = "jdbc:mysql://localhost:3306/car_rental_management_system";
 	private static String jdbcUsername = "root";
 	private static String jdbcPassword = "root";
 	private static String DRIVER = "com.mysql.cj.jdbc.Driver";
-	
+
 	private static Stack<Connection> availableConnections = new Stack<>();
-	private static List<Connection> usedConnections = new ArrayList<>(CURRENT_CONNECTIONS);
-
+	private static List<Connection> usedConnections = new ArrayList<>(MINIMUM_CONNECTIONS);
+	
+	static String lck = "";
 	static {
-		try {
-			Class.forName(DRIVER);
-		} catch (ClassNotFoundException e) {
-			throw new Error("FATAL ....");
-		}
-
-		for (int count = 0; count < MINIMUM_CONNECTIONS; count++) {
+		synchronized (lck) {
 			try {
-				availableConnections.push(createConnection());
-			} catch (SQLException e) {
-				e.printStackTrace();
+				Class.forName(DRIVER);
+			} catch (ClassNotFoundException e) {
+				throw new Error("FATAL ....");
 			}
-		}
 
-		Thread refreshPool = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (true) {
-					try {
-						Thread.sleep(5000);
-						checkAndFixPool();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+			for (int count = 0; count < MINIMUM_CONNECTIONS; count++) {
+				try {
+					availableConnections.push(createConnection());
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
 			}
-		});
-		refreshPool.start();
+
+			Thread refreshPool = new Thread(new Runnable() {
+				@Override
+				synchronized public void run() {
+					while (true) {
+						try {
+							Thread.sleep(5000);
+							checkAndFixPool();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			});
+			refreshPool.start();
+		}
 	}
 
-	private static void checkAndFixPool() {
+	synchronized private static void checkAndFixPool() {
 
 		for (Connection conn : availableConnections) {
 			try (Statement statement = conn.createStatement();) {
@@ -77,7 +80,7 @@ public class ConnectionPool {
 		return DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
 	}
 
-	public synchronized static Connection getConnection() {
+	synchronized static public Connection getConnection() {
 
 		while (availableConnections.isEmpty()) {
 			try {
@@ -92,18 +95,23 @@ public class ConnectionPool {
 
 		Handler handler = new Handler(newConnection);
 
-		updateUsedConnectionsStatistics();
-		
+		// updateUsedConnectionsStatistics();
+
 		return (Connection) Proxy.newProxyInstance(Connection.class.getClassLoader(), new Class[] { Connection.class },
 				handler);
 	}
+	/*
+	 * private static void updateUsedConnectionsStatistics() { long periodInSeconds
+	 * = Duration.between(prevTime, LocalTime.now()).getSeconds(); prevTime =
+	 * LocalTime.now();
+	 * 
+	 * totalQueriesToDB++; long queriesPerSecond = totalQueriesToDB /
+	 * periodInSeconds;
+	 * 
+	 * }
+	 */
 
-	private static void updateUsedConnectionsStatistics() {
-		Duration d = Duration.between(LocalTime.now(), prevTime);
-		d.getSeconds();
-	}
-
-	public static void releaseConnection(Connection conn) {
+	synchronized public static void releaseConnection(Connection conn) {
 		if (conn == null) {
 			return;
 		}
@@ -122,7 +130,7 @@ public class ConnectionPool {
 		availableConnections.push(conn);
 	}
 
-	private static void shutdown() throws SQLException {
+	synchronized public static void shutdown() throws SQLException {
 		for (Connection conn : usedConnections) {
 			releaseConnection(conn);
 		}
@@ -130,4 +138,5 @@ public class ConnectionPool {
 			conn.close();
 		}
 	}
+
 }

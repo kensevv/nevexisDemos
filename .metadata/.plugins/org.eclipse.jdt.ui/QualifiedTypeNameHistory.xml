@@ -48,6 +48,8 @@
     <fullyQualifiedTypeName name="com.threads.newRunnable.NewRunnable"/>
     <fullyQualifiedTypeName name="java.lang.Runnable"/>
     <fullyQualifiedTypeName name="java.sql.Statement"/>
-    <fullyQualifiedTypeName name="com.kensev.connection.ConnectionPool"/>
     <fullyQualifiedTypeName name="java.time.Duration"/>
+    <fullyQualifiedTypeName name="java.lang.management.ManagementFactory"/>
+    <fullyQualifiedTypeName name="com.kensev.connection.ConnectionPool"/>
+    <fullyQualifiedTypeName name="java.lang.ThreadLocal"/>
 </qualifiedTypeNameHistroy>
