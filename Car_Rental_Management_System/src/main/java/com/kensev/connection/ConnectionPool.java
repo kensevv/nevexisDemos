@@ -17,7 +17,8 @@ public class ConnectionPool {
 	// private static LocalTime prevTime = LocalTime.now();
 	// private static int totalQueriesToDB = 0;
 
-	private static String jdbcURL = "jdbc:mysql://localhost:3306/car_rental_management_system";
+	//private static String jdbcURL = "jdbc:mysql://localhost:3306/car_rental_management_system";
+	private static String jdbcURL = "jdbc:mysql://localhost/car_rental_management_system?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private static String jdbcUsername = "root";
 	private static String jdbcPassword = "root";
 	private static String DRIVER = "com.mysql.cj.jdbc.Driver";

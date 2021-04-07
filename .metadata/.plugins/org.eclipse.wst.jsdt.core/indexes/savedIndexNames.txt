@@ -1,7 +1,0 @@
-INDEX VERSION 1.4+D:\Programming\Nevexis Internship\nevexisDemos\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-966442943.index
-3089447647.index
-1169196057.index
-4220968353.index
-2017743336.index
-123690285.index
