@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "valuta.1",
+    "type": "java.lang.String",
+    "description": "A description for 'valuta.1'"
+  },
+  {
+    "name": "valuta.1",
+    "type": "java.lang.String",
+    "description": "A description for 'valuta.1'"
+  },
+  {
+    "name": "endpoint.url",
+    "type": "java.lang.String",
+    "description": "A description for 'endpoint.url'"
+  },
+  {
+    "name": "currency",
+    "type": "java.lang.String",
+    "description": "A description for 'currency'"
+  },
+  {
+    "name": "currencyURL",
+    "type": "java.lang.String",
+    "description": "A description for 'currencyURL'"
+  },
+  {
+    "name": "URLkraken",
+    "type": "java.lang.String",
+    "description": "A description for 'URLkraken'"
+  }
+]}
