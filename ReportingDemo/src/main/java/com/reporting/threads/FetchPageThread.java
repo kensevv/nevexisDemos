@@ -7,7 +7,7 @@ import java.util.concurrent.CyclicBarrier;
 import com.reporting.entities.Persons;
 import com.reporting.services.DBService;
 
-public class FetchPageThread extends Thread {
+public class FetchPageThread implements Runnable {
 	private DBService dbService;
 	private CyclicBarrier barrier;
 	private int limit;
@@ -30,6 +30,12 @@ public class FetchPageThread extends Thread {
 		if (null != currentPage && 0 != currentPage.size() && offset < pageToFill.length) {
 			int currentIndex = offset;
 			for (int i = 0; i < currentPage.size(); i++) {
+//				try {
+//					Thread.sleep(1);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				pageToFill[currentIndex] = currentPage.get(i);
 				currentIndex++;
 			}

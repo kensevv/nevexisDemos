@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.reporting.entities.Persons;
 
 @Service
-@Transactional
 public class DBService extends BasicService {
 	public Long getPersonsCount() {
 		return em.createNamedQuery(Queries.getPersonsCount, Long.class).getSingleResult();
