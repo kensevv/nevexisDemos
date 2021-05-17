@@ -1,8 +1,12 @@
- package com.reporting.controllers;
+package com.reporting.controllers;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -62,6 +66,39 @@ public class Controller {
 		StreamingResponseBody stream = out -> {
 
 			report.getTxtFile(response.getOutputStream());
+		};
+		return new ResponseEntity<StreamingResponseBody>(stream, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/downloadZip")
+	public ResponseEntity<StreamingResponseBody> zipReport(final HttpServletResponse response) {
+		response.setContentType("application/zip");
+		response.setHeader("Content-Disposition", "attachment;filename=persons.zip");
+		StreamingResponseBody stream = out -> {
+			
+			ZipOutputStream zipOut = new ZipOutputStream(response.getOutputStream());
+			
+			ByteArrayOutputStream fileOutput = new ByteArrayOutputStream();
+			try {
+				report.getPdfFile(fileOutput);
+			} catch (DocumentException | URISyntaxException e) {
+				e.printStackTrace();
+			}
+			zipOut.putNextEntry(new ZipEntry("persons.pdf"));
+			zipOut.write(fileOutput.toByteArray());
+			
+			fileOutput.reset();
+			report.getExelFile(fileOutput);
+			zipOut.putNextEntry(new ZipEntry("persons.xlsx"));
+			zipOut.write(fileOutput.toByteArray());
+			
+			fileOutput.reset();
+			report.getTxtFile(fileOutput);
+			zipOut.putNextEntry(new ZipEntry("persons.txt"));
+			zipOut.write(fileOutput.toByteArray());
+			
+			zipOut.close();
+			
 		};
 		return new ResponseEntity<StreamingResponseBody>(stream, HttpStatus.OK);
 	}
