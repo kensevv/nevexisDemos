@@ -1,6 +1,7 @@
 package com.reporting.services;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -10,8 +11,11 @@ import java.nio.file.Paths;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -83,8 +87,8 @@ public class Report {
 		barrier.await();
 	}
 
-	public void getTxtFile(OutputStream out) throws IOException {
-		try (PrintStream writer = new PrintStream(out)) {
+	public void getTxtFile(OutputStream response) throws IOException {
+		try (PrintStream writer = new PrintStream(response)) {
 			writer.println(String.format("Total Persons Count : %d", this.personsCount));
 			for (Persons person : allPersons) {
 				writer.println(String.format("%d: %s", person.getId(), person.getNames()));
@@ -92,7 +96,7 @@ public class Report {
 		}
 	}
 
-	public void getPdfFile(OutputStream out1)
+	public void getPdfFile(OutputStream response)
 			throws DocumentException, URISyntaxException, MalformedURLException, IOException {
 		Document document = new Document();
 
@@ -104,7 +108,7 @@ public class Report {
 		addTableHeader(table);
 		addRows(table);
 
-		PdfWriter.getInstance(document, new BufferedOutputStream(out1, 1024 * 1024 * 3));
+		PdfWriter.getInstance(document, new BufferedOutputStream(response, 1024 * 1024 * 3));
 		document.open();
 		document.add(img);
 		document.add(chunk);
@@ -112,7 +116,7 @@ public class Report {
 		document.close();
 	}
 
-	public void getExelFile(OutputStream out) throws IOException {
+	public void getExcell(OutputStream response) throws IOException {
 		Workbook workbook = new XSSFWorkbook();
 
 		Sheet sheet = workbook.createSheet("Persons");
@@ -139,10 +143,30 @@ public class Report {
 			cell1 = row.createCell(1);
 			cell1.setCellValue(allPersons[i].getNames());
 		}
-		workbook.write(out);
+		workbook.write(response);
 		workbook.close();
 	}
 
+	public void getZip(OutputStream response) throws IOException, DocumentException, URISyntaxException {
+		ZipOutputStream zipOut = new ZipOutputStream(response);
+		ByteArrayOutputStream fileOutput = new ByteArrayOutputStream();
+		getPdfFile(fileOutput);
+		zipOut.putNextEntry(new ZipEntry("persons.pdf"));
+		zipOut.write(fileOutput.toByteArray());
+		
+		fileOutput.reset();
+		getExcell(fileOutput);
+		zipOut.putNextEntry(new ZipEntry("persons.xlsx"));
+		zipOut.write(fileOutput.toByteArray());
+		
+		fileOutput.reset();
+		getTxtFile(fileOutput);
+		zipOut.putNextEntry(new ZipEntry("persons.txt"));
+		zipOut.write(fileOutput.toByteArray());
+		
+		zipOut.close();
+	}
+	
 	private void doCalculations() {
 		personsCount = dbService.getPersonsCount();
 		limitPeronsPerPage = (int) Math.ceil((double) personsCount / (double) threadPool.getThreadCount());

@@ -1,24 +1,17 @@
 package com.reporting.controllers;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import com.itextpdf.text.DocumentException;
 import com.reporting.services.Report;
 
 @RestController
@@ -26,81 +19,38 @@ public class Controller {
 	@Autowired
 	private Report report;
 
-	@GetMapping(value = "/downloadExcell", produces = "application/excell")
-	public ResponseEntity<StreamingResponseBody> downloadExcell(HttpServletResponse response) throws IOException {
-
-		response.setContentType("application/Excell");
-		response.setHeader("Content-Disposition", "attachment;filename=persons.xlsx");
-
-		StreamingResponseBody stream = out -> {
-			report.getExelFile(response.getOutputStream());
-
-		};
-		return new ResponseEntity<StreamingResponseBody>(stream, HttpStatus.OK);
+	@GetMapping("/getReport/{fileType}")
+	public void getReport(@PathVariable String fileType, final HttpServletResponse response)
+			throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, IOException {
+		StringBuilder methodName = new StringBuilder();
+		reflectionSetUp(methodName, fileType, response);
+		Method method = report.getClass().getMethod(methodName.toString(), OutputStream.class);
+		method.invoke(report, response.getOutputStream());
 	}
 
-	@GetMapping(value = "/downloadPdf", produces = MediaType.APPLICATION_PDF_VALUE)
-	public ResponseEntity<StreamingResponseBody> pdfReport(final HttpServletResponse response)
-			throws MalformedURLException, DocumentException, URISyntaxException, IOException {
-
-		response.setContentType("application/pdf");
-		response.setHeader("Content-Disposition", "attachment;filename=persons.pdf");
-
-		StreamingResponseBody stream = out -> {
-			try {
-				report.getPdfFile(response.getOutputStream());
-			} catch (DocumentException | URISyntaxException e) {
-				e.printStackTrace();
-			}
-		};
-		return new ResponseEntity<StreamingResponseBody>(stream, HttpStatus.OK);
-	}
-
-	@GetMapping(value = "/downloadTxt", produces = "application/txt")
-	public ResponseEntity<StreamingResponseBody> txtReport(final HttpServletResponse response)
-			throws MalformedURLException, DocumentException, URISyntaxException, IOException {
-
-		response.setContentType("application/txt");
-		response.setHeader("Content-Disposition", "attachment;filename=persons.txt");
-
-		StreamingResponseBody stream = out -> {
-
-			report.getTxtFile(response.getOutputStream());
-		};
-		return new ResponseEntity<StreamingResponseBody>(stream, HttpStatus.OK);
-	}
-
-	@GetMapping(value = "/downloadZip")
-	public ResponseEntity<StreamingResponseBody> zipReport(final HttpServletResponse response) {
-		response.setContentType("application/zip");
-		response.setHeader("Content-Disposition", "attachment;filename=persons.zip");
-		StreamingResponseBody stream = out -> {
-			
-			ZipOutputStream zipOut = new ZipOutputStream(response.getOutputStream());
-			
-			ByteArrayOutputStream fileOutput = new ByteArrayOutputStream();
-			try {
-				report.getPdfFile(fileOutput);
-			} catch (DocumentException | URISyntaxException e) {
-				e.printStackTrace();
-			}
-			zipOut.putNextEntry(new ZipEntry("persons.pdf"));
-			zipOut.write(fileOutput.toByteArray());
-			
-			fileOutput.reset();
-			report.getExelFile(fileOutput);
-			zipOut.putNextEntry(new ZipEntry("persons.xlsx"));
-			zipOut.write(fileOutput.toByteArray());
-			
-			fileOutput.reset();
-			report.getTxtFile(fileOutput);
-			zipOut.putNextEntry(new ZipEntry("persons.txt"));
-			zipOut.write(fileOutput.toByteArray());
-			
-			zipOut.close();
-			
-		};
-		return new ResponseEntity<StreamingResponseBody>(stream, HttpStatus.OK);
+	private void reflectionSetUp(StringBuilder methodName, String fileType, final HttpServletResponse response) {
+		switch (fileType.toUpperCase()) {
+		case "TXT":
+			methodName.append("getTxtFile");
+			response.setContentType("application/txt");
+			response.setHeader("Content-Disposition", "attachment;filename=persons.txt");
+			break;
+		case "PDF":
+			methodName.append("getPdfFile");
+			response.setContentType("application/pdf");
+			response.setHeader("Content-Disposition", "attachment;filename=persons.pdf");
+			break;
+		case "EXCELL":
+			methodName.append("getExcell");
+			response.setContentType("application/Excell");
+			response.setHeader("Content-Disposition", "attachment;filename=persons.xlsx");
+			break;
+		case "ZIP":
+			methodName.append("getZip");
+			response.setContentType("application/zip");
+			response.setHeader("Content-Disposition", "attachment;filename=persons.zip");
+		}
 	}
 	// pdf - file from disk download:
 	/*
