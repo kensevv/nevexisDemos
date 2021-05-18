@@ -15,7 +15,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -87,7 +86,7 @@ public class Report {
 		barrier.await();
 	}
 
-	public void getTxtFile(OutputStream response) throws IOException {
+	public void getTXT(OutputStream response) throws IOException {
 		try (PrintStream writer = new PrintStream(response)) {
 			writer.println(String.format("Total Persons Count : %d", this.personsCount));
 			for (Persons person : allPersons) {
@@ -96,7 +95,7 @@ public class Report {
 		}
 	}
 
-	public void getPdfFile(OutputStream response)
+	public void getPDF(OutputStream response)
 			throws DocumentException, URISyntaxException, MalformedURLException, IOException {
 		Document document = new Document();
 
@@ -116,7 +115,7 @@ public class Report {
 		document.close();
 	}
 
-	public void getExcell(OutputStream response) throws IOException {
+	public void getXLSX(OutputStream response) throws IOException {
 		Workbook workbook = new XSSFWorkbook();
 
 		Sheet sheet = workbook.createSheet("Persons");
@@ -147,20 +146,20 @@ public class Report {
 		workbook.close();
 	}
 
-	public void getZip(OutputStream response) throws IOException, DocumentException, URISyntaxException {
+	public void getZIP(OutputStream response) throws IOException, DocumentException, URISyntaxException {
 		ZipOutputStream zipOut = new ZipOutputStream(response);
 		ByteArrayOutputStream fileOutput = new ByteArrayOutputStream();
-		getPdfFile(fileOutput);
+		getPDF(fileOutput);
 		zipOut.putNextEntry(new ZipEntry("persons.pdf"));
 		zipOut.write(fileOutput.toByteArray());
 		
 		fileOutput.reset();
-		getExcell(fileOutput);
+		getXLSX(fileOutput);
 		zipOut.putNextEntry(new ZipEntry("persons.xlsx"));
 		zipOut.write(fileOutput.toByteArray());
 		
 		fileOutput.reset();
-		getTxtFile(fileOutput);
+		getTXT(fileOutput);
 		zipOut.putNextEntry(new ZipEntry("persons.txt"));
 		zipOut.write(fileOutput.toByteArray());
 		
