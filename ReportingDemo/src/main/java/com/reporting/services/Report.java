@@ -51,7 +51,7 @@ public class Report {
 		validList(allObjects);
 		
 		try (PrintStream writer = new PrintStream(response)) {
-			writer.println(String.format("Total Persons Count : %d", allObjects.length));
+			writer.println(String.format("Total %s Count : %d", allObjects[0].getClass().getName() ,allObjects.length));
 			for (Object object : allObjects) {
 				Field[] fields = object.getClass().getDeclaredFields();
 				for (Field field : fields) {
@@ -73,7 +73,7 @@ public class Report {
 		img.scalePercent(
 				((document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin()) / img.getWidth())
 						* 100);
-		Chunk chunk = new Chunk(String.format("Total people: %d", allObjects.length), font);
+		Chunk chunk = new Chunk(String.format("Total %s: %d", allObjects[0].getClass().getSimpleName(), allObjects.length), font);
 		PdfPTable table = new PdfPTable(allObjects[0].getClass().getDeclaredFields().length);
 		addTableHeader(allObjects, table);
 		addRows(allObjects, table);
@@ -93,13 +93,13 @@ public class Report {
 		
 		try (Workbook workbook = new XSSFWorkbook();) {
 
-			Sheet sheet = workbook.createSheet("Persons");
+			Sheet sheet = workbook.createSheet(allObjects[0].getClass().getSimpleName());
 			sheet.setColumnWidth(0, 4000);
 			sheet.setColumnWidth(1, 6000);
 
 			Row objectsCount = sheet.createRow(0);
 			Cell cell = objectsCount.createCell(0);
-			cell.setCellValue("Total People");
+			cell.setCellValue(String.format("Total %s", allObjects[0].getClass().getName()));
 			cell = objectsCount.createCell(1);
 			cell.setCellValue(allObjects.length);
 
@@ -136,17 +136,17 @@ public class Report {
 
 			ByteArrayOutputStream fileOutput = new ByteArrayOutputStream();
 			getPDF(allObjects, fileOutput);
-			zipOut.putNextEntry(new ZipEntry("persons.pdf"));
+			zipOut.putNextEntry(new ZipEntry(String.format("%s.pdf", allObjects[0].getClass().getSimpleName())));
 			zipOut.write(fileOutput.toByteArray());
 			
 			fileOutput.reset();
 			getXLSX(allObjects, fileOutput);
-			zipOut.putNextEntry(new ZipEntry("persons.xlsx"));
+			zipOut.putNextEntry(new ZipEntry(String.format("%s.xlsx", allObjects[0].getClass().getSimpleName())));
 			zipOut.write(fileOutput.toByteArray());
 			
 			fileOutput.reset();
 			getTXT(allObjects, fileOutput);
-			zipOut.putNextEntry(new ZipEntry("persons.txt"));
+			zipOut.putNextEntry(new ZipEntry(String.format("%s.txt", allObjects[0].getClass().getSimpleName())));
 			zipOut.write(fileOutput.toByteArray());
 			
 			zipOut.close();

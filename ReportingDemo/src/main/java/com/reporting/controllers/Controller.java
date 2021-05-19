@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reporting.enums.FileType;
-import com.reporting.services.FetchPersonsService;
+import com.reporting.fetchdata.FetchPersonsService;
 import com.reporting.services.Report;
 
 @RestController

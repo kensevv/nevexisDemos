@@ -1,4 +1,4 @@
-package com.reporting.threads;
+package com.reporting.fetchdata;
 
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;

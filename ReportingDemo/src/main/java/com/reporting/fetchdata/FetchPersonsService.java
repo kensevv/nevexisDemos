@@ -1,4 +1,4 @@
-package com.reporting.services;
+package com.reporting.fetchdata;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.reporting.entities.Persons;
+import com.reporting.services.DBService;
 import com.reporting.threadpool.ThreadPool;
-import com.reporting.threads.FetchPageThread;
 
 @Service
 public class FetchPersonsService {
