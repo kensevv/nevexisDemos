@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.reporting.enums.FileType;
+import com.reporting.services.FetchPersonsService;
 import com.reporting.services.Report;
 
 @RestController
 public class Controller {
 	@Autowired
-	private Report report;
+	private FetchPersonsService personsReport;
+	
 
 	@GetMapping("/getReport")
 	public void getReport(@RequestParam FileType fileType, final HttpServletResponse response)
@@ -28,7 +30,7 @@ public class Controller {
 		response.setContentType(String.format("application/%s", fileType.name().toLowerCase()));
 		response.setHeader("Content-Disposition", String.format("attachment;filename=persons.%s", fileType.name().toLowerCase()));
 		
-		Method method = report.getClass().getMethod(String.format("get%s", fileType.name().toUpperCase()), OutputStream.class);
-		method.invoke(report, response.getOutputStream());
+		Method method = Report.class.getMethod(String.format("get%s", fileType.name().toUpperCase()), Object[].class, OutputStream.class);
+		method.invoke(Report.class, personsReport.getAllPersons(),  response.getOutputStream());
 	}
 }

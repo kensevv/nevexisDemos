@@ -5,24 +5,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import javax.annotation.PostConstruct;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
@@ -36,24 +30,12 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.reporting.entities.Persons;
-import com.reporting.threadpool.ThreadPool;
-import com.reporting.threads.FetchPageThread;
 
-@Service
 public class Report {
 
 	private static Font font;
 	private static Image img;
-	@Autowired
-	private DBService dbService;
-	@Autowired
-	private ThreadPool threadPool;
-	private long personsCount;
-	private int limitPeronsPerPage; 
-	private int offset;
-	private Persons[] allPersons;
-	
+
 	static {
 		font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
 		try {
@@ -63,49 +45,38 @@ public class Report {
 			throw new Error(e);
 		}
 	}
-	
-	@PostConstruct
-	public void postConstruct() {
-		doCalculations();
-		try {
-			fetchPersons();
-		} catch (InterruptedException | BrokenBarrierException e1) {
-			e1.printStackTrace();
-		}
-	}
 
-	private void fetchPersons() throws InterruptedException, BrokenBarrierException {
-		allPersons = new Persons[(int) personsCount];
-		CyclicBarrier barrier = new CyclicBarrier(threadPool.getThreadCount() + 1);
-
-		for (int i = 0; i < threadPool.getThreadCount(); i++) {
-			threadPool.getExecutorService()
-					.submit(new FetchPageThread(dbService, barrier, limitPeronsPerPage, offset, allPersons));
-			offset += limitPeronsPerPage;
-		}
-		barrier.await();
-	}
-
-	public void getTXT(OutputStream response) throws IOException {
+	public static void getTXT(Object[] allObjects, OutputStream response) throws IOException, NoSuchFieldException,
+			SecurityException, IllegalArgumentException, IllegalAccessException {
+		validList(allObjects);
+		
 		try (PrintStream writer = new PrintStream(response)) {
-			writer.println(String.format("Total Persons Count : %d", this.personsCount));
-			for (Persons person : allPersons) {
-				writer.println(String.format("%d: %s", person.getId(), person.getNames()));
+			writer.println(String.format("Total Persons Count : %d", allObjects.length));
+			for (Object object : allObjects) {
+				Field[] fields = object.getClass().getDeclaredFields();
+				for (Field field : fields) {
+					field.setAccessible(true);
+					writer.print(field.get(object) + " ");
+				}
+				writer.println();
 			}
 		}
 	}
 
-	public void getPDF(OutputStream response)
-			throws DocumentException, URISyntaxException, MalformedURLException, IOException {
+	public static void getPDF(Object[] allObjects, OutputStream response) throws DocumentException, URISyntaxException,
+			MalformedURLException, IOException, IllegalArgumentException, IllegalAccessException {
+	
+		validList(allObjects);
+		
 		Document document = new Document();
 
 		img.scalePercent(
 				((document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin()) / img.getWidth())
 						* 100);
-		Chunk chunk = new Chunk(String.format("Total people: %d", this.personsCount), font);
-		PdfPTable table = new PdfPTable(2);
-		addTableHeader(table);
-		addRows(table);
+		Chunk chunk = new Chunk(String.format("Total people: %d", allObjects.length), font);
+		PdfPTable table = new PdfPTable(allObjects[0].getClass().getDeclaredFields().length);
+		addTableHeader(allObjects, table);
+		addRows(allObjects, table);
 
 		PdfWriter.getInstance(document, new BufferedOutputStream(response, 1024 * 1024 * 3));
 		document.open();
@@ -115,77 +86,97 @@ public class Report {
 		document.close();
 	}
 
-	public void getXLSX(OutputStream response) throws IOException {
-		Workbook workbook = new XSSFWorkbook();
+	public static void getXLSX(Object[] allObjects, OutputStream response)
+			throws IOException, IllegalArgumentException, IllegalAccessException {
+		
+		validList(allObjects);
+		
+		try (Workbook workbook = new XSSFWorkbook();) {
 
-		Sheet sheet = workbook.createSheet("Persons");
-		sheet.setColumnWidth(0, 4000);
-		sheet.setColumnWidth(1, 6000);
+			Sheet sheet = workbook.createSheet("Persons");
+			sheet.setColumnWidth(0, 4000);
+			sheet.setColumnWidth(1, 6000);
 
-		Row personsCount = sheet.createRow(0);
-		Cell cell = personsCount.createCell(0);
-		cell.setCellValue("Total People");
-		cell = personsCount.createCell(1);
-		cell.setCellValue(this.personsCount);
+			Row objectsCount = sheet.createRow(0);
+			Cell cell = objectsCount.createCell(0);
+			cell.setCellValue("Total People");
+			cell = objectsCount.createCell(1);
+			cell.setCellValue(allObjects.length);
 
-		Row header = sheet.createRow(1);
+			Row header = sheet.createRow(1);
 
-		Cell headerCell = header.createCell(0);
-		headerCell.setCellValue("Id");
-		headerCell = header.createCell(1);
-		headerCell.setCellValue("Names");
+			Field[] fields = allObjects.getClass().getDeclaredFields();
+			int cellCount = 0;
+			for (Field field : fields) {
+				Cell headerCell = header.createCell(cellCount);
+				headerCell.setCellValue(field.getName());
+				cellCount++;
+			}
+			for (int i = 0; i < allObjects.length; i++) {
+				Field[] objectFields = allObjects[i].getClass().getDeclaredFields();
+				Row row = sheet.createRow(i + 2);
 
-		for (int i = 0; i < allPersons.length; i++) {
-			Row row = sheet.createRow(i + 2);
-			Cell cell1 = row.createCell(0);
-			cell1.setCellValue(allPersons[i].getId());
-			cell1 = row.createCell(1);
-			cell1.setCellValue(allPersons[i].getNames());
+				int index = 0;
+				for (Field field : objectFields) {
+					field.setAccessible(true);
+					Cell newCell = row.createCell(index);
+					newCell.setCellValue(String.valueOf(field.get(allObjects[i])));
+					index++;
+				}
+			}
+			workbook.write(response);
 		}
-		workbook.write(response);
-		workbook.close();
 	}
 
-	public void getZIP(OutputStream response) throws IOException, DocumentException, URISyntaxException {
-		ZipOutputStream zipOut = new ZipOutputStream(response);
-		ByteArrayOutputStream fileOutput = new ByteArrayOutputStream();
-		getPDF(fileOutput);
-		zipOut.putNextEntry(new ZipEntry("persons.pdf"));
-		zipOut.write(fileOutput.toByteArray());
-		
-		fileOutput.reset();
-		getXLSX(fileOutput);
-		zipOut.putNextEntry(new ZipEntry("persons.xlsx"));
-		zipOut.write(fileOutput.toByteArray());
-		
-		fileOutput.reset();
-		getTXT(fileOutput);
-		zipOut.putNextEntry(new ZipEntry("persons.txt"));
-		zipOut.write(fileOutput.toByteArray());
-		
-		zipOut.close();
-	}
-	
-	private void doCalculations() {
-		personsCount = dbService.getPersonsCount();
-		limitPeronsPerPage = (int) Math.ceil((double) personsCount / (double) threadPool.getThreadCount());
-		offset = 0;
+	public static void getZIP(Object[] allObjects, OutputStream response)
+			throws IOException, DocumentException, URISyntaxException, NoSuchFieldException, SecurityException,
+			IllegalArgumentException, IllegalAccessException {
+
+		try (ZipOutputStream zipOut = new ZipOutputStream(response);) {
+
+			ByteArrayOutputStream fileOutput = new ByteArrayOutputStream();
+			getPDF(allObjects, fileOutput);
+			zipOut.putNextEntry(new ZipEntry("persons.pdf"));
+			zipOut.write(fileOutput.toByteArray());
+			
+			fileOutput.reset();
+			getXLSX(allObjects, fileOutput);
+			zipOut.putNextEntry(new ZipEntry("persons.xlsx"));
+			zipOut.write(fileOutput.toByteArray());
+			
+			fileOutput.reset();
+			getTXT(allObjects, fileOutput);
+			zipOut.putNextEntry(new ZipEntry("persons.txt"));
+			zipOut.write(fileOutput.toByteArray());
+			
+			zipOut.close();
+		}
 	}
 
-	private void addTableHeader(PdfPTable table) {
-		Stream.of("ID", "Names").forEach(columnTitle -> {
+	private static void addTableHeader(Object[] allObjects, PdfPTable table) {
+		for (Field field : allObjects[0].getClass().getDeclaredFields()) {
 			PdfPCell header = new PdfPCell();
 			header.setBackgroundColor(BaseColor.LIGHT_GRAY);
 			header.setBorderWidth(2);
-			header.setPhrase(new Phrase(columnTitle));
+			header.setPhrase(new Phrase(field.getName()));
 			table.addCell(header);
-		});
+		}
 	}
 
-	private void addRows(PdfPTable table) {
-		for (Persons person : allPersons) {
-			table.addCell(String.valueOf(person.getId()));
-			table.addCell(person.getNames());
+	private static void addRows(Object[] allObjects, PdfPTable table)
+			throws IllegalArgumentException, IllegalAccessException {
+		for (Object object : allObjects) {
+			Field[] fields = object.getClass().getDeclaredFields();
+			for (Field field : fields) {
+				field.setAccessible(true);
+				table.addCell(String.valueOf(field.get(object)));
+			}
+		}
+	}
+	
+	private static void validList(Object[] allObjects) {
+		if(allObjects.length <= 0 || allObjects == null) {
+			throw new Error("Empty list");
 		}
 	}
 }

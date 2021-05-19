@@ -12,10 +12,10 @@ public class FetchPageThread implements Runnable {
 	private CyclicBarrier barrier;
 	private int limit;
 	private int offset;
-	private Persons[] pageToFill;
+	private Object[] pageToFill;
 
 	public FetchPageThread(DBService dbService, CyclicBarrier barrier, int limit, int offset,
-			Persons[] pageToFill) {
+			Object[] pageToFill) {
 		this.dbService = dbService;
 		this.barrier = barrier;
 		this.limit = limit;
@@ -30,12 +30,6 @@ public class FetchPageThread implements Runnable {
 		if (null != currentPage && 0 != currentPage.size() && offset < pageToFill.length) {
 			int currentIndex = offset;
 			for (int i = 0; i < currentPage.size(); i++) {
-//				try {
-//					Thread.sleep(1);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
 				pageToFill[currentIndex] = currentPage.get(i);
 				currentIndex++;
 			}
