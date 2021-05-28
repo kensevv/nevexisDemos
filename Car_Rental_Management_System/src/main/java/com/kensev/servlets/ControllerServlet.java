@@ -85,11 +85,11 @@ public class ControllerServlet extends HttpServlet {
 	private void insertVehicle(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException {
 
-		String licPlate = request.getParameter("licPlate");
+		String licPlate = request.getParameter("license_plate");
 		String model = request.getParameter("model");
 		String insurance = request.getParameter("insurance");
-		boolean isAvailable = Boolean.parseBoolean(request.getParameter("isAvailable"));
-		int milleage = Integer.parseInt(request.getParameter("milleage"));
+		boolean isAvailable = Boolean.parseBoolean(request.getParameter("is_available"));
+		int milleage = Integer.parseInt(request.getParameter("mileage"));
 		double price = Double.parseDouble(request.getParameter("price"));
 
 		Vehicle newVehicle = new Vehicle(licPlate, model, insurance, isAvailable, milleage, price);
@@ -101,11 +101,11 @@ public class ControllerServlet extends HttpServlet {
 	private void updateVehicle(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException {
 
-		String licPlate = request.getParameter("licPlate");
+		String licPlate = request.getParameter("license_plate");
 		String model = request.getParameter("model");
 		String insurance = request.getParameter("insurance");
-		String isAvailable = request.getParameter("isAvailable");
-		String milleage = request.getParameter("milleage");
+		String isAvailable = request.getParameter("is_available");
+		String milleage = request.getParameter("mileage");
 		String price = request.getParameter("price");
 
 		Vehicle existingVehicle = vehicleCRUD.getVehicle(licPlate);
@@ -126,7 +126,7 @@ public class ControllerServlet extends HttpServlet {
 
 	private void deleteVehicle(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		String licPlate = request.getParameter("licPlate");
+		String licPlate = request.getParameter("license_plate");
 		vehicleCRUD.removeVehicle(licPlate);
 		response.sendRedirect("list");
 		return;

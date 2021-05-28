@@ -1,4 +1,4 @@
-package com.kensev.accounts;
+package com.kensev.entitites;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

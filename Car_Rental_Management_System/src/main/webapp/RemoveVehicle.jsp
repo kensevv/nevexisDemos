@@ -13,13 +13,13 @@
 <%@include file="htmlTemplates/navigationBar.html"%>
 		<main>
 			<div class="box">
-				<label for="licPlate" id="modifyTitle">Choose a car to
+				<label for="license_plate" id="modifyTitle">Choose a car to
 					remove:</label>
 				<form method="get" action="delete">
-					<select name="licPlate" id="cars">
+					<select name="license_plate" id="cars">
 						<c:forEach var="vehicle" items="${listVehicle}">
-							<option value="${vehicle.licPlate}">
-								<c:out value="${vehicle.licPlate}" />
+							<option value="${vehicle.license_plate}">
+								<c:out value="${vehicle.license_plate}" />
 							</option>
 						</c:forEach>
 					</select>

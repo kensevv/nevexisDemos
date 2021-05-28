@@ -14,7 +14,7 @@ import com.kensev.entitites.Vehicle;
 public class VehicleCRUD {
 
 	public List<Vehicle> listAllVehicles() throws SQLException {
-		return listAllVehicles("licPlate");
+		return listAllVehicles("license_plate");
 	}
 
 	public List<Vehicle> listAllVehicles(String orderBy) throws SQLException {
@@ -26,9 +26,9 @@ public class VehicleCRUD {
 				ResultSet resultSet = prepStatement
 						.executeQuery("SELECT * FROM vehicles ORDER BY " + orderBy + " limit 100;");) {
 			while (resultSet.next()) {
-				allVehicles.add(new Vehicle(resultSet.getString("licPlate"), resultSet.getString("model"),
-						resultSet.getString("insurance"), resultSet.getBoolean("isAvailable"),
-						resultSet.getInt("milleage"), resultSet.getDouble("price")));
+				allVehicles.add(new Vehicle(resultSet.getString("license_plate"), resultSet.getString("model"),
+						resultSet.getString("insurance"), resultSet.getBoolean("is_available"),
+						resultSet.getInt("mileage"), resultSet.getDouble("price")));
 			}
 		}
 		return allVehicles;
@@ -42,11 +42,11 @@ public class VehicleCRUD {
 
 			try (ResultSet rs = statement.executeQuery("SELECT * FROM vehicles WHERE 1<>1");) {
 				rs.moveToInsertRow();
-				rs.updateString("licPlate", newVehicle.getLicPlate());
+				rs.updateString("license_plate", newVehicle.getLicPlate());
 				rs.updateString("model", newVehicle.getModel());
 				rs.updateString("insurance", newVehicle.getInsurance());
-				rs.updateBoolean("isAvailable", newVehicle.getIsAvailable());
-				rs.updateInt("milleage", newVehicle.getMilleage());
+				rs.updateBoolean("is_available", newVehicle.getIsAvailable());
+				rs.updateInt("mileage", newVehicle.getMilleage());
 				rs.updateDouble("price", newVehicle.getPrice());
 				rs.insertRow();
 			}
@@ -58,12 +58,12 @@ public class VehicleCRUD {
 
 		try (Connection connection = ConnectionPool.getConnection();
 				PreparedStatement prepStatement = connection
-						.prepareStatement("SELECT * FROM vehicles WHERE licPlate = ?")) {
+						.prepareStatement("SELECT * FROM vehicles WHERE license_plate = ?")) {
 			prepStatement.setString(1, licPlate);
 			try (ResultSet resultSet = prepStatement.executeQuery()) {
 				if (resultSet.next()) {
-					foundVehicle = new Vehicle(licPlate, resultSet.getString("model"), resultSet.getString("milleage"),
-							resultSet.getBoolean("isAvailable"), resultSet.getInt("milleage"),
+					foundVehicle = new Vehicle(licPlate, resultSet.getString("model"), resultSet.getString("mileage"),
+							resultSet.getBoolean("is_available"), resultSet.getInt("mileage"),
 							resultSet.getDouble("price"));
 				}
 
@@ -75,7 +75,7 @@ public class VehicleCRUD {
 	public void removeVehicle(String licPlate) throws SQLException {
 		
 		try (Connection connection = ConnectionPool.getConnection();
-				PreparedStatement prepStatement = connection.prepareStatement("SELECT * FROM vehicles WHERE licPlate = ?",
+				PreparedStatement prepStatement = connection.prepareStatement("SELECT * FROM vehicles WHERE license_plate = ?",
 				ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
 			prepStatement.setString(1, licPlate);
 
@@ -90,15 +90,15 @@ public class VehicleCRUD {
 	public void updateVehicle(Vehicle veh) throws SQLException {
 
 		try (Connection connection = ConnectionPool.getConnection();
-				PreparedStatement statement = connection.prepareStatement("SELECT * FROM vehicles WHERE licPlate = ?",
+				PreparedStatement statement = connection.prepareStatement("SELECT * FROM vehicles WHERE license_plate = ?",
 						ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);) {
 			statement.setString(1, veh.getLicPlate());
 			try (ResultSet rs = statement.executeQuery();) {
 				if (rs.next()) {
 					rs.updateString("model", veh.getModel());
 					rs.updateString("insurance", veh.getInsurance());
-					rs.updateBoolean("isAvailable", veh.getIsAvailable());
-					rs.updateInt("milleage", veh.getMilleage());
+					rs.updateBoolean("is_available", veh.getIsAvailable());
+					rs.updateInt("mileage", veh.getMilleage());
 					rs.updateDouble("price", veh.getPrice());
 					rs.updateRow();
 				}

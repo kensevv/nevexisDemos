@@ -13,21 +13,21 @@
 	<%@include file="htmlTemplates/navigationBar.html"%>
 	
 	<div class="box">
-		<label for="licPlate" id="modifyTitle">Choose a car to modify:</label>
+		<label for="license_plate" id="modifyTitle">Choose a car to modify:</label>
 		<form method="get" action="update">
-			<select name="licPlate" id="cars">
+			<select name="license_plate" id="cars">
 				<c:forEach var="vehicle" items="${listVehicle}">
-					<option value="${vehicle.licPlate}">
-						<c:out value="${vehicle.licPlate}" />
+					<option value="${vehicle.license_plate}">
+						<c:out value="${vehicle.license_plate}" />
 					</option>
 				</c:forEach>
 			</select>
 			<div class="modify">
 				<input type="text" name="model" placeholder="Model"></input> <input
 					class="input" type="text" name="insurance" placeholder="insurance"></input>
-				<input class="input" type="text" name="isAvailable"
+				<input class="input" type="text" name="is_available"
 					placeholder="is available"></input> <input class="input"
-					type="text" name="milleage" placeholder="Milleage"></input> <input
+					type="text" name="mileage" placeholder="Mileage"></input> <input
 					class="input" type="text" name="price" placeholder="price"></input>
 
 				<button type="submit" class="button">Modify Vehicle</button>
