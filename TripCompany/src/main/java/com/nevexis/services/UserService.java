@@ -32,19 +32,17 @@ public class UserService {
 
 	public List<City> accesibleCitiesFromLocation(City fromCity) {
 		List<Transition> allTransitions = dbService.getAllTransitions();
-		List<Transition> startingTransitions = allTransitions.stream()
+		List<Transition> startingTransitions = allTransitions.stream().parallel()
 				.filter(transition -> transition.getCity().getName().equals(fromCity.getName()))
 				.collect(Collectors.toList());
 
 		List<City> result = new ArrayList<City>(50);
 
-		startingTransitions.stream()
-				.forEach(startingTransition -> 
-				allTransitions.stream()
+		startingTransitions.stream().parallel()
+				.forEach(startingTransition -> allTransitions.stream()
 						.filter(transition -> transition.getTrip().getId().equals(startingTransition.getTrip().getId())
 								&& transition.getOrderColumn() > startingTransition.getOrderColumn())
-						.collect(Collectors.toList())
-						.stream().forEach(tran -> result.add(tran.getCity())));
+						.forEach(tran -> result.add(tran.getCity())));
 
 		return result;
 	}

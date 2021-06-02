@@ -10,6 +10,7 @@ public class Transition extends BaseEntity {
 	@ManyToOne
 	private WeekDays weekday;
 	private String hourTime;
+	
 	private Integer orderColumn;
 	
 	@ManyToOne
@@ -37,5 +38,4 @@ public class Transition extends BaseEntity {
 	public Trip getTrip() {
 		return trip;
 	}
-	
 }

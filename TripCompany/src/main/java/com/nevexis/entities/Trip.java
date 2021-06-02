@@ -13,6 +13,4 @@ public class Trip extends BaseEntity {
 	public String getEndPoint() {
 		return endPoint;
 	}
-	
-	
 }
