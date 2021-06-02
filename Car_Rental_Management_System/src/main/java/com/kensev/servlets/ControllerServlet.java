@@ -85,14 +85,14 @@ public class ControllerServlet extends HttpServlet {
 	private void insertVehicle(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException {
 
-		String licPlate = request.getParameter("license_plate");
+		String license_plate = request.getParameter("license_plate");
 		String model = request.getParameter("model");
 		String insurance = request.getParameter("insurance");
-		boolean isAvailable = Boolean.parseBoolean(request.getParameter("is_available"));
-		int milleage = Integer.parseInt(request.getParameter("mileage"));
+		boolean is_available = Boolean.parseBoolean(request.getParameter("is_available"));
+		int mileage = Integer.parseInt(request.getParameter("mileage"));
 		double price = Double.parseDouble(request.getParameter("price"));
 
-		Vehicle newVehicle = new Vehicle(licPlate, model, insurance, isAvailable, milleage, price);
+		Vehicle newVehicle = new Vehicle(license_plate, model, insurance, is_available, mileage, price);
 		vehicleCRUD.addVehicle(newVehicle);
 		response.sendRedirect("list");
 
@@ -101,22 +101,22 @@ public class ControllerServlet extends HttpServlet {
 	private void updateVehicle(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException {
 
-		String licPlate = request.getParameter("license_plate");
+		String license_plate = request.getParameter("license_plate");
 		String model = request.getParameter("model");
 		String insurance = request.getParameter("insurance");
-		String isAvailable = request.getParameter("is_available");
-		String milleage = request.getParameter("mileage");
+		String is_available = request.getParameter("is_available");
+		String mileage = request.getParameter("mileage");
 		String price = request.getParameter("price");
 
-		Vehicle existingVehicle = vehicleCRUD.getVehicle(licPlate);
+		Vehicle existingVehicle = vehicleCRUD.getVehicle(license_plate);
 		if (model != "")
 			existingVehicle.setModel(model);
 		if (insurance != "")
 			existingVehicle.setInsurance(insurance);
-		if (isAvailable != "")
-			existingVehicle.setAvailable(Boolean.parseBoolean(isAvailable));
-		if (milleage != "")
-			existingVehicle.setMilleage(Integer.parseInt(milleage));
+		if (is_available != "")
+			existingVehicle.setAvailable(Boolean.parseBoolean(is_available));
+		if (mileage != "")
+			existingVehicle.setMilleage(Integer.parseInt(mileage));
 		if (price != "")
 			existingVehicle.setPrice(Double.parseDouble(price));
 		
@@ -126,8 +126,8 @@ public class ControllerServlet extends HttpServlet {
 
 	private void deleteVehicle(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		String licPlate = request.getParameter("license_plate");
-		vehicleCRUD.removeVehicle(licPlate);
+		String license_plate = request.getParameter("license_plate");
+		vehicleCRUD.removeVehicle(license_plate);
 		response.sendRedirect("list");
 		return;
 	}
@@ -140,5 +140,4 @@ public class ControllerServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("RemoveVehicle.jsp");
 		dispatcher.forward(request, response);
 	}
-
 }
