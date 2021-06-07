@@ -25,7 +25,6 @@ public class DemoClientEndPoint {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
 	@OnOpen
-
 	public void onOpen(Session session) {
 
 		logger.info("Connected ... " + session.getId());
@@ -43,7 +42,6 @@ public class DemoClientEndPoint {
 	}
 
 	@OnMessage
-
 	public String onMessage(String message, Session session) {
 
 		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
@@ -65,7 +63,6 @@ public class DemoClientEndPoint {
 	}
 
 	@OnClose
-
 	public void onClose(Session session, CloseReason closeReason) {
 
 		logger.info(String.format("Session %s close because of %s", session.getId(), closeReason));

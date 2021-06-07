@@ -21,7 +21,7 @@ public class WebSocketDemoApplication {
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(WebSocketDemoApplication.class, args);
-		// runServer();
+		runServer();
 	}
 
 	public static void runServer() {
@@ -53,7 +53,7 @@ public class WebSocketDemoApplication {
 		byte[] hash = MessageDigest.getInstance("SHA-256").digest(message.getBytes(StandardCharsets.UTF_8));
 
 		// step 3: base64 decode apiPrivateKey
-		byte[] secretDecoded = Base64.getDecoder().decode(PRIVATE_KEY);
+		byte[] secretDecoded = Base64.getDecoder().decode("KENAN");
 
 		// step 4: use result of step 3 to hash the resultof step 2 with
 		// HMAC-SHA512
