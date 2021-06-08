@@ -5,27 +5,22 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class LoadBalancer {
 	
 	private static final int BALANCER_PORT = 8080;
 	private static boolean running = true;
-	private static int activeThreads = 0;
-
-	synchronized private static void incrementActiveThreadsCounter() {
-		activeThreads++;
-	}
-
-	synchronized private static void decrementActiveThreadsCounter() {
-		activeThreads--;
-	}
+	
+	private static AtomicInteger activeThreads = new AtomicInteger(0);
 	
 	private static void shutdown() throws InterruptedException {
 		running = false;
-		while (activeThreads !=0 ) {
+		while (activeThreads.get() != 0) {
 			Thread.sleep(50);
 		}
+		System.out.println("BYE");
 	}
 	
 	public static void main(final String[] args) throws IOException {
@@ -44,26 +39,30 @@ public class LoadBalancer {
 
 				@Override
 				public void run() {
-					incrementActiveThreadsCounter();
-					try (Scanner clientScanner = new Scanner(clientSocket.getInputStream());
-							Socket transfSocket = new Socket("localhost", port);
-							Scanner scan2 = new Scanner(transfSocket.getInputStream());
-							PrintStream printer = new PrintStream(transfSocket.getOutputStream());) {
+					activeThreads.incrementAndGet();
+					
+					try (Scanner clientScanner = new Scanner(clientSocket.getInputStream());) {
 
 						String clientName = clientScanner.nextLine();
-						if (clientName.equals("SHUTDOWN")) {
+						System.out.println(clientName);
+						if (clientName.equals("ÿûÿû ÿûÿû'ÿýÿûÿýSHUTDOWN")) {
+							activeThreads.decrementAndGet();
 							shutdown();
 							return;
 						}
 						
-						printer.println(clientName);
-						String msg = scan2.nextLine();
-						PrintStream printout = new PrintStream(clientSocket.getOutputStream());
-						printout.println(msg);
+						try(Socket transfSocket = new Socket("localhost", port);
+								Scanner scan2 = new Scanner(transfSocket.getInputStream());
+								PrintStream printer = new PrintStream(transfSocket.getOutputStream());){
+							printer.println(clientName);
+							String msg = scan2.nextLine();
+							PrintStream printout = new PrintStream(clientSocket.getOutputStream());
+							printout.println(msg);
+						}
 					} catch (IOException | InterruptedException e) {
 						e.printStackTrace();
 					} finally {
-						decrementActiveThreadsCounter();
+						activeThreads.decrementAndGet();
 					}
 				}
 			});
