@@ -1,0 +1,60 @@
+<div class="navbar">
+	<div class="navbar-options-content">
+		<a href="/Car_Rental_Management_System/home.jsp">Home</a>
+		
+		<div class="dropdown">
+			<button class="dropbtn">
+				Vehicle Options <i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a href="/Car_Rental_Management_System/vehicles/list">List All Vehicles</a> <a href="/Car_Rental_Management_System/VehicleForm.jsp">Add
+					new Vehicle</a> <a href="/Car_Rental_Management_System/vehicles/removeForm">Remove Vehicle</a> <a href="/Car_Rental_Management_System/vehicles/edit">Modify
+					Vehicle</a>
+			</div>
+		</div>
+		
+		<div class="dropdown">
+			<button class="dropbtn">
+				Client Options <i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a href="/Car_Rental_Management_System/clients/list">List All Clients</a> <a href="/Car_Rental_Management_System/ClientForm.jsp">Add
+					new Client</a> <a href="/Car_Rental_Management_System/clients/removeForm">Remove Client</a> <a href="/Car_Rental_Management_System/clients/edit">Modify
+					Client</a>
+			</div>
+		</div>
+		
+		<div class="dropdown">
+			<button class="dropbtn">
+				Employee Options <i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a href="/Car_Rental_Management_System/clients/list">List All Employees</a> <a href="/Car_Rental_Management_System/ClientForm.jsp">Add
+					new Employee</a> <a href="/Car_Rental_Management_System/clients/removeForm">Remove Employee</a> <a href="/Car_Rental_Management_System/clients/edit">Modify
+					Employee</a>
+			</div>
+		</div>
+		
+		<div class="dropdown">
+			<button class="dropbtn">
+				Show Deals <i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a href="/Car_Rental_Management_System/deals/list">List All Deals</a> 
+				<a href="/Car_Rental_Management_System/DealsForm.jsp">Make New Deal</a>
+			</div>
+		</div>
+		
+	</div>
+	<div class="navbar-profile-options">
+		<div id="navUser" class="dropdown">
+			<button class="dropbtn">
+				${sessionScope.account.username} <i class="fa fa-caret-down"></i>
+			</button>
+			<div class="dropdown-content">
+				<a href="/Car_Rental_Management_System/Profile.jsp">Show Profile</a> 
+				<a href="/Car_Rental_Management_System/logout">Logout</a>
+			</div>
+		</div>
+	</div>
+</div>
