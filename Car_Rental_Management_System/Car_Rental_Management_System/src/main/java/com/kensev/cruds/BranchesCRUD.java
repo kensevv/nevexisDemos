@@ -17,7 +17,7 @@ public class BranchesCRUD {
 		List<Branches> allBranches = new ArrayList<>(50);
 		try (Connection connection = ConnectionPool.getConnection();
 				Statement prepStatement = connection.createStatement();
-				ResultSet resultSet = prepStatement.executeQuery("SELECT * FROM FN71947.BRANCHES");) {
+				ResultSet resultSet = prepStatement.executeQuery("SELECT * FROM BRANCHES");) {
 			while (resultSet.next()) {
 				allBranches.add(new Branches(resultSet.getString("NAME"), resultSet.getString("ADDRESS"),
 						resultSet.getString("MANAGER_ID")));
@@ -30,7 +30,7 @@ public class BranchesCRUD {
 		try (Connection connection = ConnectionPool.getConnection();
 				Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 						ResultSet.CONCUR_UPDATABLE);) {
-			try (ResultSet rs = statement.executeQuery("SELECT * FROM FN71947.BRANCHES WHERE 1<>1");) {
+			try (ResultSet rs = statement.executeQuery("SELECT * FROM BRANCHES WHERE 1<>1");) {
 				rs.moveToInsertRow();
 				rs.updateString("NAME", newBranch.getName());
 				rs.updateString("ADDRESS", newBranch.getAddress());
@@ -43,7 +43,7 @@ public class BranchesCRUD {
 	public void removeBranch(String branchName) throws SQLException, InterruptedException {
 		try (Connection connection = ConnectionPool.getConnection();
 				PreparedStatement prepStatement = connection.prepareStatement(
-						"SELECT * FROM FN71947.BRANCHES WHERE NAME = ?", ResultSet.TYPE_SCROLL_SENSITIVE,
+						"SELECT * FROM BRANCHES WHERE NAME = ?", ResultSet.TYPE_SCROLL_SENSITIVE,
 						ResultSet.CONCUR_UPDATABLE)) {
 			prepStatement.setString(1, branchName);
 			try (ResultSet rs = prepStatement.executeQuery()) {
@@ -58,7 +58,7 @@ public class BranchesCRUD {
 
 		try (Connection connection = ConnectionPool.getConnection();
 				PreparedStatement statement = connection.prepareStatement(
-						"SELECT * FROM FN71947.BRANCHES WHERE NAME = ?", ResultSet.TYPE_SCROLL_SENSITIVE,
+						"SELECT * FROM BRANCHES WHERE NAME = ?", ResultSet.TYPE_SCROLL_SENSITIVE,
 						ResultSet.CONCUR_UPDATABLE);) {
 			statement.setString(1, branch.getName());
 			try (ResultSet rs = statement.executeQuery();) {
@@ -76,11 +76,11 @@ public class BranchesCRUD {
 		Branches foundBranch = null;
 		try (Connection connection = ConnectionPool.getConnection();
 				PreparedStatement prepStatement = connection
-						.prepareStatement("SELECT * FROM FN71947.BRANCHES WHERE NAME = ?")) {
+						.prepareStatement("SELECT * FROM BRANCHES WHERE NAME = ?")) {
 			prepStatement.setString(1, branchName);
 			try (ResultSet resultSet = prepStatement.executeQuery()) {
 				if (resultSet.next()) {
-					foundBranch = new Branches(resultSet.getString("NAME"), resultSet.getString("ADRESS"),
+					foundBranch = new Branches(resultSet.getString("NAME"), resultSet.getString("ADDRESS"),
 							resultSet.getString("MANAGER_ID"));
 				}
 			}

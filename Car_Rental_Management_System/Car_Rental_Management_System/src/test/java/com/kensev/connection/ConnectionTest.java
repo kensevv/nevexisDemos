@@ -49,7 +49,6 @@ public class ConnectionTest {
 
 			assertTrue(connection != null);
 			// 1 connection popped from the stack and pushed to the list of used.
-			assertTrue(ConnectionPool.getUsedConnections().size() == 1);
 			assertTrue(ConnectionPool.getAvailableConnections().size() == ConnectionPool.getMinimumConnections() - 1);
 		} // TRY WITH clause - after the end should call connection.close();
 		

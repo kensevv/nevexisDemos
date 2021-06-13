@@ -61,8 +61,9 @@ public class DealsCRUD {
 						"SELECT * FROM DEALS WHERE START_DATE = ? AND CLIENT_ID = ? AND EMPLOYEE_ID = ? AND VEHICLE_LICPLATE = ? AND BRANCH_NAME = ?")) {
 			prepStatement.setDate(1, startDate);
 			prepStatement.setString(2, clientId);
-			prepStatement.setString(3, vehicleLicPlate);
-			prepStatement.setString(4, branchName);
+			prepStatement.setString(3, employeeId);
+			prepStatement.setString(4, vehicleLicPlate);
+			prepStatement.setString(5, branchName);
 			try (ResultSet resultSet = prepStatement.executeQuery()) {
 				if (resultSet.next()) {
 					foundDeal = new Deals(resultSet.getDate("START_DATE"), resultSet.getString("CLIENT_ID"),
@@ -84,8 +85,9 @@ public class DealsCRUD {
 						ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
 			prepStatement.setDate(1, startDate);
 			prepStatement.setString(2, clientId);
-			prepStatement.setString(3, vehicleLicPlate);
-			prepStatement.setString(4, branchName);
+			prepStatement.setString(3, employeeId);
+			prepStatement.setString(4, vehicleLicPlate);
+			prepStatement.setString(5, branchName);
 			try (ResultSet rs = prepStatement.executeQuery()) {
 				while (rs.next()) {
 					rs.deleteRow();
@@ -102,9 +104,10 @@ public class DealsCRUD {
 						ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);) {
 			statement.setDate(1, deal.getStart_date());
 			statement.setString(2, deal.getClient_id());
-			statement.setString(3, deal.getVehicle_licPlate());
-			statement.setString(4, deal.getBranch_name());
-			try (ResultSet rs = statement.executeQuery();) {
+			statement.setString(3, deal.getEmployee_id());
+			statement.setString(4, deal.getVehicle_licPlate());
+			statement.setString(5, deal.getBranch_name());
+			try (ResultSet rs = statement.executeQuery()) {
 				if (rs.next()) {
 					rs.updateDate("START_DATE", deal.getStart_date());
 					rs.updateString("CLIENT_ID", deal.getClient_id());
