@@ -1,11 +1,27 @@
-C:\Users\kense\Documents\nevexis\nevexisDemos\Car_Rental_Management_System\src\main\java\com\kensev\servlets\RegisterServlet.java
-C:\Users\kense\Documents\nevexis\nevexisDemos\Car_Rental_Management_System\src\main\java\com\kensev\connection\ConnectionPool.java
-C:\Users\kense\Documents\nevexis\nevexisDemos\Car_Rental_Management_System\src\main\java\com\kensev\servlets\LogoutServlet.java
-C:\Users\kense\Documents\nevexis\nevexisDemos\Car_Rental_Management_System\src\main\java\com\kensev\servlets\ControllerServlet.java
-C:\Users\kense\Documents\nevexis\nevexisDemos\Car_Rental_Management_System\src\main\java\com\kensev\connection\Handler.java
-C:\Users\kense\Documents\nevexis\nevexisDemos\Car_Rental_Management_System\src\main\java\com\kensev\accounts\Account.java
-C:\Users\kense\Documents\nevexis\nevexisDemos\Car_Rental_Management_System\src\main\java\com\kensev\entitites\Vehicle.java
-C:\Users\kense\Documents\nevexis\nevexisDemos\Car_Rental_Management_System\src\main\java\com\kensev\filters\LoginFilter.java
-C:\Users\kense\Documents\nevexis\nevexisDemos\Car_Rental_Management_System\src\main\java\com\kensev\cruds\VehicleCRUD.java
-C:\Users\kense\Documents\nevexis\nevexisDemos\Car_Rental_Management_System\src\main\java\com\kensev\listener\ApplicationListener.java
-C:\Users\kense\Documents\nevexis\nevexisDemos\Car_Rental_Management_System\src\main\java\com\kensev\servlets\LoginServlet.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\entitites\Branches.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\servlets\DealsControllerServlet.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\servlets\LoginServlet.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\cruds\DealsCRUD.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\entitites\Vehicle.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\connection\ConnectionPool.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\filters\AuthorizationFilter.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\servlets\ClientsControllerServlet.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\servlets\ContactUsControllerServlet.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\security\SecurityService.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\connection\Handler.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\entitites\Account.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\entitites\Deals.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\servlets\EmployeesControllerServlet.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\listener\ApplicationListener.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\entitites\Clients.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\servlets\RegisterServlet.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\entitites\Employees.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\entitites\Roles.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\cruds\VehicleCRUD.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\servlets\VehiclesControllerServlet.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\cruds\EmployeesCRUD.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\servlets\LogoutServlet.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\cruds\ContactUsCRUD.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\cruds\ClientsCRUD.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\entitites\ContactUs.java
+C:\Users\kense\Documents\FMI\CleanCodeFMI\Clean-Code-FMI\Car Rental Team Project\Car_Rental_Management_System\src\main\java\com\kensev\cruds\BranchesCRUD.java

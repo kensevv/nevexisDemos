@@ -5,19 +5,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.Duration;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
 public class ConnectionPool {
-	//private static int CURRENT_CONNECTIONS = 5;
 	private final static int MINIMUM_CONNECTIONS = 5;
-	// private static LocalTime prevTime = LocalTime.now();
-	// private static int totalQueriesToDB = 0;
-
-	//private static String jdbcURL = "jdbc:mysql://localhost:3306/car_rental_management_system";
 	private static String jdbcURL = "jdbc:mysql://localhost/car_rental_management_system?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private static String jdbcUsername = "root";
 	private static String jdbcPassword = "root";
@@ -96,21 +89,9 @@ public class ConnectionPool {
 
 		Handler handler = new Handler(newConnection);
 
-		// updateUsedConnectionsStatistics();
-
 		return (Connection) Proxy.newProxyInstance(Connection.class.getClassLoader(), new Class[] { Connection.class },
 				handler);
 	}
-	/*
-	 * private static void updateUsedConnectionsStatistics() { long periodInSeconds
-	 * = Duration.between(prevTime, LocalTime.now()).getSeconds(); prevTime =
-	 * LocalTime.now();
-	 * 
-	 * totalQueriesToDB++; long queriesPerSecond = totalQueriesToDB /
-	 * periodInSeconds;
-	 * 
-	 * }
-	 */
 
 	synchronized public static void releaseConnection(Connection conn) {
 		if (conn == null) {
@@ -140,4 +121,15 @@ public class ConnectionPool {
 		}
 	}
 
+	public static final Stack<Connection> getAvailableConnections() {
+		return availableConnections;
+	}
+
+	public static final List<Connection> getUsedConnections() {
+		return usedConnections;
+	}
+
+	public static final int getMinimumConnections() {
+		return MINIMUM_CONNECTIONS;
+	}
 }

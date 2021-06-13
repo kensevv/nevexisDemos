@@ -16,12 +16,13 @@
 		<label for="orderBy" id="modifyTitle">Sort by:</label>
 		<form method="get" action="list">
 			<select name="orderBy" id="car">
-				<option value="licPlate">License Plate</option>
+				<option value="license_plate">License Plate</option>
 				<option value="model">Model</option>
 				<option value="insurance">Insurance</option>
-				<option value="isAvailable">Is available</option>
-				<option value="milleage">Milleage</option>
+				<option value="is_available">Is available</option>
+				<option value="mileage">Mileage</option>
 				<option value="price">Price</option>
+				<option value="branch_name">Branch</option>
 			</select>
 			<button type="submit" class="button">Sort</button>
 		</form>
@@ -33,13 +34,14 @@
 				<div class="cell">Model</div>
 				<div class="cell">Insurance</div>
 				<div class="cell">Is Available</div>
-				<div class="cell">Milleage</div>
+				<div class="cell">Mileage</div>
 				<div class="cell">Price</div>
+				<div class="cell">Branch</div>
 			</div>
 			<c:forEach var="vehicle" items="${listVehicle}">
 				<div class="row">
 					<div class="cell" data-title="licPlate">
-						<c:out value="${vehicle.licPlate}" />
+						<c:out value="${vehicle.license_plate}" />
 					</div>
 					<div class="cell" data-title="Model">
 						<c:out value="${vehicle.model}" />
@@ -48,13 +50,16 @@
 						<c:out value="${vehicle.insurance}" />
 					</div>
 					<div class="cell" data-title="Is Available">
-						<c:out value="${vehicle.isAvailable}" />
+						<c:out value="${vehicle.is_available}" />
 					</div>
-					<div class="cell" data-title="Milleage">
-						<c:out value="${vehicle.milleage}" />
+					<div class="cell" data-title="Mileage">
+						<c:out value="${vehicle.mileage}" />
 					</div>
 					<div class="cell" data-title="Price">
 						<c:out value="${vehicle.price}" />
+					</div>
+					<div class="cell" data-title="Branch">
+						<c:out value="${vehicle.branch_name}" />
 					</div>
 				</div>
 			</c:forEach>

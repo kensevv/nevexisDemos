@@ -18,7 +18,7 @@ public class LogoutServlet extends HttpServlet {
 		request.getSession().setAttribute("account", null);
 		//RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 		//dispatcher.forward(request, response);
-		response.sendRedirect("login.jsp");
+		response.sendRedirect("home.jsp");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

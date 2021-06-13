@@ -63,7 +63,7 @@ public class VehicleCRUD {
 			prepStatement.setString(1, licPlate);
 			try (ResultSet resultSet = prepStatement.executeQuery()) {
 				if (resultSet.next()) {
-					foundVehicle = new Vehicle(licPlate, resultSet.getString("model"), resultSet.getString("mileage"),
+					foundVehicle = new Vehicle(licPlate, resultSet.getString("model"), resultSet.getString("insurance"),
 							resultSet.getBoolean("is_available"), resultSet.getInt("mileage"),
 							resultSet.getDouble("price"), resultSet.getString("branch_name"));
 				}

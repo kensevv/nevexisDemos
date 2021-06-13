@@ -12,9 +12,11 @@ public class Account {
 	private String username;
 	private String email;
 	private String password;
+	private String employeeId;
+	private Roles role;
 	
 	public boolean login(String email, String password) throws SQLException {
-		String queryStatement = String.format("SELECT username, email, password FROM accounts WHERE email = '%s' AND password = '%s'", email, password);
+		String queryStatement = String.format("SELECT * FROM accounts WHERE email = '%s' AND password = '%s'", email, password);
 		
 		try(Connection connection = ConnectionPool.getConnection();
 				Statement statement = connection.createStatement();
@@ -24,6 +26,8 @@ public class Account {
 				this.setUsername(rs.getString("username"));
 				this.setEmail(email);
 				this.setPassword(password);
+				this.role = Roles.valueOf(rs.getString("role"));
+				this.employeeId = rs.getString("employee_id");
 				return true;
 			}
 			else return false;
@@ -43,6 +47,8 @@ public class Account {
 		this.setUsername(username);
 		this.setEmail(email);
 		this.setPassword(password);
+		this.role = Roles.VIEWER;
+		this.employeeId = null;
 		
 		return true;
 	}
@@ -81,5 +87,21 @@ public class Account {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public Roles getRole() {
+		return role;
+	}
+
+	public void setRole(Roles role) {
+		this.role = role;
 	}
 }

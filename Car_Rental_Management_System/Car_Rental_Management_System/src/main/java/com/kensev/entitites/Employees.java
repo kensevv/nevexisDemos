@@ -3,51 +3,51 @@ package com.kensev.entitites;
 import java.sql.Date;
 
 public class Employees {
-	private String Id;
-	private String firstName;
-	private String lastName;
+	private String ID;
+	private String first_name;
+	private String last_name;
 	private String email;
 	private String phone;
 	private Date birthday;
-	private String workNumber;
-	private String branchName;
-	private String managerId;
+	private String work_number;
+	private String branch_name;
+	private String manager_id;
 
 	public Employees(String id, String firstName, String lastName, String email, String phone, Date birthday,
 			String workNumber, String branchName, String managerId) {
-		this.Id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.ID = id;
+		this.first_name = firstName;
+		this.last_name = lastName;
 		this.email = email;
 		this.phone = phone;
 		this.birthday = birthday;
-		this.workNumber = workNumber;
-		this.branchName = branchName;
-		this.managerId = managerId;
+		this.work_number = workNumber;
+		this.branch_name = branchName;
+		this.manager_id = managerId;
 	}
 
-	public String getId() {
-		return Id;
+	public String getID() {
+		return ID;
 	}
 
-	public void setId(String id) {
-		Id = id;
+	public void setID(String iD) {
+		ID = iD;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getFirst_name() {
+		return first_name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFirst_name(String first_name) {
+		this.first_name = first_name;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getLast_name() {
+		return last_name;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
 	}
 
 	public String getEmail() {
@@ -74,35 +74,34 @@ public class Employees {
 		this.birthday = birthday;
 	}
 
-	public String getWorkNumber() {
-		return workNumber;
+	public String getWork_number() {
+		return work_number;
 	}
 
-	public void setWorkNumber(String workNumber) {
-		this.workNumber = workNumber;
+	public void setWork_number(String work_number) {
+		this.work_number = work_number;
 	}
 
-	public String getBranchName() {
-		return branchName;
+	public String getBranch_name() {
+		return branch_name;
 	}
 
-	public void setBranchName(String branchName) {
-		this.branchName = branchName;
+	public void setBranch_name(String branch_name) {
+		this.branch_name = branch_name;
 	}
 
-	public String getManagerId() {
-		return managerId;
+	public String getManager_id() {
+		return manager_id;
 	}
 
-	public void setManagerId(String managerId) {
-		this.managerId = managerId;
+	public void setManager_id(String manager_id) {
+		this.manager_id = manager_id;
 	}
 
 	@Override
 	public String toString() {
-		return "Employees [Id=" + Id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phone=" + phone + ", birthday=" + birthday + ", workNumber=" + workNumber + ", branchName="
-				+ branchName + ", managerId=" + managerId + "]";
+		return "Employees [ID=" + ID + ", first_name=" + first_name + ", last_name=" + last_name + ", email=" + email
+				+ ", phone=" + phone + ", birthday=" + birthday + ", work_number=" + work_number + ", branch_name="
+				+ branch_name + ", manager_id=" + manager_id + "]";
 	}
-	
 }

@@ -1,7 +1,10 @@
 body {
     font-size: 16px;
-   background: rgb(134,41,41);
-background: linear-gradient(90deg, rgba(134,41,41,1) 0%, rgba(185,82,42,1) 28%, rgba(210,194,187,1) 71%, rgba(92,92,92,1) 100%);
+
+background: rgba(96, 59, 22, 1.0);
+background: -webkit-linear-gradient(top left, rgba(96, 59, 22, 1.0), rgba(14, 35, 90, 1.0));
+background: -moz-linear-gradient(top left, rgba(96, 59, 22, 1.0), rgba(14, 35, 90, 1.0));
+background: linear-gradient(to bottom right, rgba(96, 59, 22, 1.0), rgba(14, 35, 90, 1.0));
 }
 
 * {

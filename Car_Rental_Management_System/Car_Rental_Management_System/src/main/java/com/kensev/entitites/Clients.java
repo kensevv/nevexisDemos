@@ -1,7 +1,6 @@
 package com.kensev.entitites;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 public class Clients {
 	private String ID;
@@ -14,7 +13,7 @@ public class Clients {
 	public Clients(String iD, String first_name, String last_name, String email, String phone, Date birthday,
 			String driver_lic) {
 		super();
-		ID = iD;
+		this.ID = iD;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.email = email;
@@ -64,6 +63,4 @@ public class Clients {
 	public void setDriver_lic(String driver_lic) {
 		this.driver_lic = driver_lic;
 	}
-
-	
 }

@@ -11,11 +11,11 @@
 	<h1 class="header">Welcome to Kensev's Car Rental Management
 		System</h1>
 	<div align="center">
-		<form action="insert" method="get">
+		<form action="vehicles/insert" method="get">
 			<table border="1" cellpadding="5">
 				<tr>
-					<th>licPlate:</th>
-					<td><input type="text" name="licPlate"
+					<th>license_plate:</th>
+					<td><input type="text" name="license_plate"
 						placeholder="License Plate"></input></td>
 				</tr>
 				<tr>
@@ -29,19 +29,24 @@
 						placeholder="insurance"></input></td>
 				</tr>
 				<tr>
-					<th>isAvailable:</th>
-					<td><input class="input" type="text" name="isAvailable"
+					<th>is_available:</th>
+					<td><input class="input" type="text" name="is_available"
 						placeholder="is available"></input></td>
 				</tr>
 				<tr>
-					<th>Milleage:</th>
-					<td><input class="input" type="text" name="milleage"
+					<th>Mileage:</th>
+					<td><input class="input" type="text" name="mileage"
 						placeholder="Milleage"></input></td>
 				</tr>
 				<tr>
 					<th>Price:</th>
 					<td><input class="input" type="text" name="price"
 						placeholder="price"></input></td>
+				</tr>
+				<tr>
+					<th>Branch:</th>
+					<td><input class="input" type="text" name="branch_name"
+						placeholder="branch"></input></td>
 				</tr>
 				<tr>
 				</tr>

@@ -13,22 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kensev.cruds.VehicleCRUD;
 import com.kensev.entitites.Vehicle;
+import com.kensev.security.SecurityService;
 
 @WebServlet("/vehicles/*")
 public class VehiclesControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private VehicleCRUD vehicleCRUD;
-
-	public VehiclesControllerServlet() {
-		super();
-	}
+	private static final VehicleCRUD vehicleCRUD = new VehicleCRUD();
+	private SecurityService securityService = new SecurityService();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		vehicleCRUD = new VehicleCRUD();
 		String action = request.getPathInfo();
-		String test = request.getServletPath();
 
 		try {
 			switch (action) {
@@ -57,7 +53,13 @@ public class VehiclesControllerServlet extends HttpServlet {
 			throw new ServletException(ex);
 		}
 	}
-
+	
+	private void denyAccess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("errorMessage", "Missing role : ADMIN");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("../AccessDenied.jsp");
+		dispatcher.forward(request, response);		
+	}
+	
 	private void listVehicle(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
 		String orderBy = request.getParameter("orderBy");
@@ -69,21 +71,34 @@ public class VehiclesControllerServlet extends HttpServlet {
 
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/VehicleForm.jsp");
-		dispatcher.forward(request, response);
+		if (!securityService.userIsAdmin(request)) {
+			denyAccess(request, response);
+			return;
+		}
+		request.getRequestDispatcher("/VehicleForm.jsp").forward(request, response);
 	}
 
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
+		if (!securityService.userIsAdmin(request)) {
+			denyAccess(request, response);
+			return;
+		}
 		List<Vehicle> listVehicle = vehicleCRUD.listAllVehicles();
 		request.setAttribute("listVehicle", listVehicle);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/VehicleModify.jsp");
-		dispatcher.forward(request, response);
+		request.getRequestDispatcher("/VehicleModify.jsp").forward(request, response);
 	}
 
 	private void insertVehicle(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException {
-
+			throws SQLException, IOException, ServletException {
+		if (!securityService.userIsAdmin(request)) {
+			denyAccess(request, response);
+			return;
+		}
+		if (!securityService.userIsAdmin(request)) {
+			response.sendRedirect("/AccessDenied.jsp");
+			return;
+		}
 		String licPlate = request.getParameter("license_plate");
 		String model = request.getParameter("model");
 		String insurance = request.getParameter("insurance");
@@ -99,8 +114,11 @@ public class VehiclesControllerServlet extends HttpServlet {
 	}
 
 	private void updateVehicle(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException {
-
+			throws SQLException, IOException, ServletException {
+		if (!securityService.userIsAdmin(request)) {
+			denyAccess(request, response);
+			return;
+		}
 		String licPlate = request.getParameter("license_plate");
 		String model = request.getParameter("model");
 		String insurance = request.getParameter("insurance");
@@ -129,6 +147,10 @@ public class VehiclesControllerServlet extends HttpServlet {
 
 	private void deleteVehicle(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
+		if (!securityService.userIsAdmin(request)) {
+			denyAccess(request, response);
+			return;
+		}
 		String licPlate = request.getParameter("license_plate");
 		vehicleCRUD.removeVehicle(licPlate);
 		response.sendRedirect("list");
@@ -137,7 +159,10 @@ public class VehiclesControllerServlet extends HttpServlet {
 
 	private void removeForm(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-
+		if (!securityService.userIsAdmin(request)) {
+			denyAccess(request, response);
+			return;
+		}
 		List<Vehicle> listVehicle = vehicleCRUD.listAllVehicles();
 		request.setAttribute("listVehicle", listVehicle);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/RemoveVehicle.jsp");
