@@ -27,10 +27,14 @@ public class AuthorizationFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		
 		String path = httpRequest.getServletPath();
+		String dispatcherForwardPath = "../AccessDenied.jsp";
+		if(httpRequest.getPathInfo() == null) {
+			dispatcherForwardPath = "/AccessDenied.jsp";
+		}
 		
 		if ( null == httpRequest.getSession().getAttribute("account") && !excludedUrls.contains(path)) {
 			request.setAttribute("errorMessage", "Un-Authorized session. Please Log-in first!");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("../AccessDenied.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher(dispatcherForwardPath);
 			dispatcher.forward(request, response);
 		} else {
 			chain.doFilter(request, response);
