@@ -7,26 +7,17 @@ import java.sql.SQLException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.kensev.entitites.Account;
 import com.kensev.entitites.Branches;
 
 public class BranchesCRUDTest{
 	Branches dummyBranch;
 	Branches output_branch;
 	BranchesCRUD dummyBranchCRUD;
-	Account dummyAccount;
 	
 	@Before
 	public void setup() {
 		dummyBranch = new Branches("Mezdra","Garata","0046054065");
 		dummyBranchCRUD = new BranchesCRUD();
-		dummyAccount=new Account();
-		
-		
-		try {
-			dummyAccount.login("kensev2000@gmail.com", "test");
-		} catch (SQLException e) {}
-		
 		
 		try {
 			dummyBranchCRUD.addBranch(dummyBranch);

@@ -5,18 +5,15 @@ import static org.junit.Assert.assertEquals;
 import java.sql.Date;
 import java.sql.SQLException;
 
-
 import org.junit.Before;
 import org.junit.Test;
 
-import com.kensev.entitites.Account;
 import com.kensev.entitites.Clients;
 
 public class ClientsCRUDTest{
 	Clients dummyClients;
 	Clients output_clients;
 	ClientsCRUD dummyClientsCRUD;
-	Account dummyAccount;
 	Date today;
 	
 	@Before
@@ -24,12 +21,6 @@ public class ClientsCRUDTest{
 		today = new Date(System.currentTimeMillis());
 		dummyClients = new Clients("1234567890","pepe","popo","email@gmail.com","0888384427",today,"987654321");
 		dummyClientsCRUD = new ClientsCRUD();
-		dummyAccount=new Account();
-		
-		try {
-			dummyAccount.login("kensev2000@gmail.com", "test");
-		} catch (SQLException e) {}
-		
 		
 		try {
 			dummyClientsCRUD.addClient(dummyClients);

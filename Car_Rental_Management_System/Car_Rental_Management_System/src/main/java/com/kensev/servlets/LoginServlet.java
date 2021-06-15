@@ -1,6 +1,7 @@
 package com.kensev.servlets;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -15,28 +16,22 @@ import com.kensev.entitites.Account;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public LoginServlet() {
-		super();
-	}
+	private final AccountService accountService = new AccountService();
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Account acc = new Account();
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		boolean logged;
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
-			logged = acc.login(email, password);
-		} catch (SQLException e) {
-			throw new Error("Login error ......");
-		}
-		
-		if(logged == true) {
-			request.getSession().setAttribute("account", acc);
-			response.sendRedirect("home.jsp");
-			
-		}
-		else {
-			response.sendRedirect("login.jsp");
+			Account account = accountService.login(request.getParameter("email"), request.getParameter("password"));
+
+			if (account != null) {
+				request.getSession().setAttribute("account", account);
+				response.sendRedirect("home.jsp");
+			} else {
+				response.sendRedirect("login.jsp");
+			}
+
+		} catch (NoSuchAlgorithmException | SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }

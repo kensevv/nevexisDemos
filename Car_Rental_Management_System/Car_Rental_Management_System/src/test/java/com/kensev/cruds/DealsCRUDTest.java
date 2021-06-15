@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.sql.Date;
 import java.sql.SQLException;
 
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,12 +23,6 @@ public class DealsCRUDTest{
 		Date today = new Date(System.currentTimeMillis());
 		dummyDeals = new Deals(today,"0046054065","0266845768","BD 8888 OP","Sofia",today,100.0);
 		dummyDealsCRUD = new DealsCRUD();
-		dummyAccount=new Account();
-		
-		try {
-			dummyAccount.login("kensev2000@gmail.com", "test");
-		} catch (SQLException e) {}
-		
 		
 		try {
 			dummyDealsCRUD.addDeal(dummyDeals);

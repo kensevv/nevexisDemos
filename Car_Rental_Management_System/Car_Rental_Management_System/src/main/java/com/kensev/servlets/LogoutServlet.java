@@ -14,10 +14,7 @@ public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//request.getSession().removeAttribute("account");
-		request.getSession().setAttribute("account", null);
-		//RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-		//dispatcher.forward(request, response);
+		request.getSession().removeAttribute("account");
 		response.sendRedirect("home.jsp");
 	}
 

@@ -21,13 +21,6 @@ public class VehicleCRUDTest{
 		dummyVehicle = new Vehicle("123456789","model1","insurance1",true,1000,100,"Sofia");
 		dummyVehicleCRUD = new VehicleCRUD();
 		output_vehicle = new Vehicle();
-		dummyAccount=new Account();
-		
-		
-		try {
-			dummyAccount.login("kensev2000@gmail.com", "test");
-		} catch (SQLException e) {}
-		
 		
 		try {
 			dummyVehicleCRUD.addVehicle(dummyVehicle);
