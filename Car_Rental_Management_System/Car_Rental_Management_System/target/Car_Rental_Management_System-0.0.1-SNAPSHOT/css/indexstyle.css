@@ -1,4 +1,17 @@
+body, html, div#root {height: 100%; }
 
+body {
+    font-size: 16px;
+    margin: 0;
+   background: rgba(96, 59, 22, 1.0);
+background: -webkit-linear-gradient(top left, rgba(96, 59, 22, 1.0), rgba(14, 35, 90, 1.0));
+background: -moz-linear-gradient(top left, rgba(96, 59, 22, 1.0), rgba(14, 35, 90, 1.0));
+background: linear-gradient(to bottom right, rgba(96, 59, 22, 1.0), rgba(14, 35, 90, 1.0));
+}
+
+p, h1, h2, h3 {
+	color:white;
+}
 
 .mynavbar {
 	display: flex;

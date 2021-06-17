@@ -1,26 +1,32 @@
-
+<%@ taglib
+    prefix="c"
+    uri="http://java.sun.com/jsp/jstl/core" 
+%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="ISO-8859-1"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ page session="true" %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Home</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 
-<link rel="stylesheet" href="css/indexstyle.css">
 </head>
 <body>
-
+<% if(request.getSession().getAttribute("account") != null){ %>
 <%@include file="htmlTemplates/navigationBar.html"%>
+						<% } %>
 	<main>
 		<section>
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 col-sm-12">
 						<div class="text-center">
+						<% if(request.getSession().getAttribute("account") == null){ %>
+						<h1><a href="/Car_Rental_Management_System/login.jsp">Login</a>  |  <a href="/Car_Rental_Management_System/register.jsp">Register</a></h1>
+						<% } %>
 							<h2>About us</h2>
 
 							<br>
@@ -188,7 +194,7 @@
 			<div class="row">
 
 				<div class="col-md-6 col-sm-12">
-					<form id="contact-form" role="form" action="contactus/insert" method="post">
+					<form id="contact-form" role="form" action="contactus/insert" method="get">
 						<div class="section-title">
 							<h2>
 								Contact us <small>we love conversations. let us talk!</small>
@@ -208,6 +214,7 @@
 						<div class="col-md-4 col-sm-12">
 							<input type="submit" class="form-control" name="send message"
 								value="Send Message">
+								<button type="submit" class="form-control">Send Message</button>
 						</div>
 
 					</form>
@@ -274,5 +281,7 @@
 		</div>
 	</footer>
 </body>
+
+<style><%@include file="css/indexstyle.css"%></style>
 </html>
 

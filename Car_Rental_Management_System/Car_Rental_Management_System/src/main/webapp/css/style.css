@@ -209,3 +209,18 @@ text-decoration: underline;
     font-style: italic;
     background-color: 	rgb(144,144,144);
 }
+
+.fcc-btn:hover {
+ background-color: lightgreen;
+}
+.fcc-btn {
+    background-color: white;
+    color: black;
+    border: 2px solid #04AA6D;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 20px;
+}

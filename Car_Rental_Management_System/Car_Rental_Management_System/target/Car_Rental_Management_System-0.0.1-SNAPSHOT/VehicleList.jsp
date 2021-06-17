@@ -64,6 +64,7 @@
 				</div>
 			</c:forEach>
 		</div>
+		<a class="fcc-btn" href="../pdf/vehicles">DOWNLOAD VEHICLES PDF</a>	
 	</div>
 </body>
 <style><%@include file="css/style.css"%></style>
