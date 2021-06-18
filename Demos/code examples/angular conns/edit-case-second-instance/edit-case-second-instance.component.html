@@ -1,0 +1,173 @@
+<div class="div-case-table">
+	{{message}}
+	<div class="edit-case-row">
+		<div class="div-case-col-label">
+			<label>Номер на гражданско дело:</label>
+		</div>
+		<div class="div-case-col-data">
+			<input maxlength="254" class="form-control" type="text" name="number" [(ngModel)]="instance.number" />
+		</div>
+		<div class="div-case-col-label">
+			<label>Архивна Папка:</label>
+		</div>
+		<div class="div-case-col-data">
+			<input maxlength="254" class="form-control" type="text" name="archiveFolderName" [(ngModel)]="instance.archiveFolderName" />
+		</div>
+	</div>
+
+	<div class="edit-case-row">
+		<div class="div-case-col-label">
+			<label>Насрочено за Дата:</label>
+		</div>
+		<div class="div-case-col-data" style="width: 80%">
+			<input style="width: 30%; display: inline;" class="form-control" type="text" maxlength="254" 
+			name="dataNasrochen" #dataNasrochen="ngModel" [(ngModel)]="instance.dataNasrochen"
+			required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])\.(0[1-9]|1[012])\.[0-9]{4}"
+			 />
+			час
+			<input class="form-control" style="width: auto; display: inline;" type="time" name="hourNasrochen" [(ngModel)]="instance.timeNasrochen" />
+		</div>
+	</div>
+
+
+	<div class="edit-case-row">
+		<div class="div-case-col-label">
+			<label>Статус:</label>
+		</div>
+		<div class="div-case-col-data">
+			<select class="form-control" #lawyer="ngModel"
+				[compareWith]="compareFrxObjects" [(ngModel)]="instance.status"
+				name="status">
+				<option *ngFor="let l of statuses" [ngValue]="l">{{l.name}}</option>
+			</select>
+		</div>
+
+
+		<div class="div-case-col-label">
+			<label>Инстанция:</label>
+		</div>
+		<div class="div-case-col-data">
+			<select class="form-control" #lawyer="ngModel" [compareWith]="compareFrxObjects" [(ngModel)]="instance.instance" name="instance">
+				<option *ngFor="let l of instances" [ngValue]="l">{{l.name}}</option>
+			</select>
+		</div>
+	</div>
+	<br>
+	<div class="edit-case-row"
+			*ngIf="null != instance.status && (  instance.status.name == 'Решение-уважен' || instance.status.name == 'Решение-частично уважен' 
+				|| instance.status.name == 'Спогодба' || instance.status.name == 'Подписано Споразумение със Застрахователя' 
+				|| instance.status.name == 'уважен 410' )">
+			<div class="div-case-col-label">
+				<label>Главница /лв/:</label>
+			</div>
+			<div class="div-case-col-data">
+				<input maxlength="254" class="form-control" type="text"
+					name="glavnica" [(ngModel)]="instance.glavnica" />
+			</div>
+
+			<div class="div-case-col-label">
+				<label>Лихва /начална дата/:</label>
+			</div>
+			
+			<div class="div-case-col-data">
+			<input class="form-control" type="date" 
+			name="lihvaDate" [(ngModel)]="instance.lihvaDate"
+			 />
+		</div>
+			
+
+			<div class="div-case-col-label">
+				<label>Присъдени разноски /лева/:</label>
+			</div>
+			<div class="div-case-col-data">
+				<input maxlength="254" class="form-control" type="text"
+					name="prisudeniRaznoski" [(ngModel)]="instance.prisudeniRaznoski" />
+			</div>
+
+			<div class="div-case-col-label">
+				<label>Разноски за ответната страна /лева/:</label>
+			</div>
+			<div class="div-case-col-data">
+				<input maxlength="254" class="form-control" type="text"
+					name="raznoskiOtvetnaStrana"
+					[(ngModel)]="instance.raznoskiOtvetnaStrana" />
+			</div>
+		</div>
+	<br>
+	<div class="edit-case-row">
+		<div class="div-case-col-label">
+			<label>Град:</label>
+		</div>
+		<div class="div-case-col-data">
+			<select class="form-control" #lawyer="ngModel" [compareWith]="compareFrxObjects" [(ngModel)]="instance.city" name="city">
+				<option *ngFor="let l of cities" [ngValue]="l">{{l.name}}</option>
+			</select>
+		</div>
+		<div class="div-case-col-label">
+			<label>Съдилище:</label>
+		</div>
+		<div class="div-case-col-data">
+			<select class="form-control" #lawyer="ngModel" [compareWith]="compareFrxObjects" [(ngModel)]="instance.court" name="court">
+				<option *ngFor="let l of courts" [ngValue]="l">{{l.name}}</option>
+			</select>
+		</div>
+	</div>
+
+
+
+	<div class="edit-case-row">
+		<div class="div-case-col-label">
+			<label>Бележка:</label>
+		</div>
+		<div class="div-case-col-data" style="width: 80%">
+			<textarea maxlength="1024" class="form-control" name="note" [(ngModel)]="instance.note" >
+			</textarea>
+		</div>
+	</div>
+</div>
+
+<div class="button-row note-button-area">
+	<button class="btn right-btn" (click)="addInstance(); ">
+		<span class="plusSign">+</span>
+		{{addInstanceText}}
+	</button>
+	<button class="btn right-btn" (click)="clear();">Изчисти</button>
+</div>
+<div class="page-header">
+	<h3>История на инстанции</h3>
+</div>
+<div class="panel-cases">
+	<app-frantishex-table [itemsPerPage]="10" [rows]="oldInstances" [columns]="cols" [allowDeletion]="true" (deleteClicked)="delete($event)" [rowClickable]="true" (onRowClicked)="copyInstance($event.row)" defaultSortColumn="createdDate"> </app-frantishex-table>
+</div>
+
+<div class="page-header">
+	<h3>Задачи</h3>
+</div>
+<div class="div-case-table">
+	<div class="edit-case-row">
+		<div class="div-task-col-data">
+			<label>Отговорник:</label>
+			<select class="form-control" #lawyer="ngModel" [compareWith]="compareFrxObjects" [(ngModel)]="task.otgovornik" name="lawyers">
+				<option *ngFor="let l of lawyers" [ngValue]="l">{{l.names}}</option>
+			</select>
+		</div>
+		<div class="div-task-col-data">
+			<label>Описание:</label>
+			<input class="form-control" type="text" maxlength="254" name="opisanie" #opisanie="ngModel" [(ngModel)]="task.opisanie" />
+		</div>
+		<div class="div-task-col-data">
+			<label>Статус:</label>
+			<select class="form-control" #statusTask="ngModel" [compareWith]="compareFrxObjects" [(ngModel)]="selectedStatus" name="statusTask">
+				<option *ngFor="let s of statusesTask" [ngValue]="s">{{s.bgName}}</option>
+			</select>
+		</div>
+		<div class="div-task-col-data-datepicker">
+			<label>Deadline:</label>
+			<app-frantishex-datepicker [(ngModel)]="task.deadline" name="deadline" class="deadline"></app-frantishex-datepicker>
+		</div>
+		<div class="div-task-col-data-datepicker">
+			<span class="glyphicon glyphicon glyphicon-plus" title="Ð¡ÑŠÐ·Ð´Ð°Ð²Ð°Ð½Ðµ Ð½Ð° Ð½Ð¾Ð²Ð° Ð·Ð°Ð´Ð°Ñ‡Ð°" (click)="addTask()"></span>
+		</div>
+	</div>
+
+	<app-frantishex-table [rows]="instancesTasks" [columns]="colsTask" (deleteClicked)="removeTask($event)" [allowDeletion]="true" defaultSortColumn="deadline"></app-frantishex-table>
