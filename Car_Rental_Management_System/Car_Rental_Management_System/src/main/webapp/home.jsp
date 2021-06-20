@@ -214,12 +214,11 @@
 						<div class="col-md-4 col-sm-12">
 							<input type="submit" class="form-control" name="send message"
 								value="Send Message">
-								<button type="submit" class="form-control">Send Message</button>
 						</div>
 
 					</form>
 				</div>
-
+<br>
 				<div class="col-md-6 col-sm-12">
 					<div class="contact-image">
 						<img src="images/contact-1-600x400.jpg" class="img-responsive"

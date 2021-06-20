@@ -29,7 +29,7 @@ public class Report {
 	public static void getPDF(Object[] allObjects, OutputStream response) throws DocumentException, URISyntaxException,
 			MalformedURLException, IOException, IllegalArgumentException, IllegalAccessException {
 		
-		Image img = Image.getInstance("C:\\Users\\kense\\Documents\\nevexis\\nevexisDemos\\Car_Rental_Management_System\\Car_Rental_Management_System\\logo.png");
+		Image img = Image.getInstance("C:\\Users\\kense\\Documents\\FMI\\CleanCodeFMI\\Clean-Code-FMI\\Car Rental Team Project\\Car_Rental_Management_System\\logo.png");
 		 validList(allObjects);
 
 		Document document = new Document();

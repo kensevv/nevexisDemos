@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kensev.cruds.ContactUsCRUD;
 import com.kensev.entitites.ContactUs;
-import com.kensev.security.SecurityService;
+import com.kensev.services.security.SecurityService;
 
 @WebServlet("/contactus/*")
 public class ContactUsControllerServlet extends HttpServlet {

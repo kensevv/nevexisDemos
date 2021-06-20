@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kensev.entitites.Account;
+import com.kensev.services.AccountService;
 
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {

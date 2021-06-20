@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kensev.cruds.EmployeesCRUD;
 import com.kensev.entitites.Employees;
-import com.kensev.security.SecurityService;
+import com.kensev.services.security.SecurityService;
 
 @WebServlet("/employees/*")
 public class EmployeesControllerServlet extends HttpServlet {

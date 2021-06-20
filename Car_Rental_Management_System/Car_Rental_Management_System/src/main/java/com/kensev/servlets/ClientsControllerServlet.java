@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kensev.cruds.ClientsCRUD;
 import com.kensev.entitites.Clients;
-import com.kensev.security.SecurityService;
+import com.kensev.services.security.SecurityService;
 
 @WebServlet("/clients/*")
 public class ClientsControllerServlet extends HttpServlet {

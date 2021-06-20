@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kensev.cruds.DealsCRUD;
 import com.kensev.entitites.Deals;
-import com.kensev.security.SecurityService;
+import com.kensev.services.security.SecurityService;
 
 @WebServlet("/deals/*")
 public class DealsControllerServlet extends HttpServlet {

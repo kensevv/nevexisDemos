@@ -7,9 +7,7 @@
 </head>
 <body>
 	<%@include file="htmlTemplates/navigationBar.html"%>
-	
-	<h1 class="header">Welcome to Kensev's Car Rental Management
-		System</h1>
+	<br>
 	<div align="center">
 		<form action="employees/insert" method="get">
 			<table border="1" cellpadding="5">

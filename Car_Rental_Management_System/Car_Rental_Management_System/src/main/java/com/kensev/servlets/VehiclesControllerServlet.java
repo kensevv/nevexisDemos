@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kensev.cruds.VehicleCRUD;
 import com.kensev.entitites.Vehicle;
-import com.kensev.security.SecurityService;
+import com.kensev.services.security.SecurityService;
 
 @WebServlet("/vehicles/*")
 public class VehiclesControllerServlet extends HttpServlet {
